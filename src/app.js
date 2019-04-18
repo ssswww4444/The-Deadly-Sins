@@ -1,12 +1,23 @@
 // map part
 // two map tile layers
-let satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
-    street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
+let street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
+    satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
 
+var jsonData = $.ajax({
+        url:"https://api.myjson.com/bins/xefh8",
+        dataType: "json",
+        success: console.log("Data successfully loaded."),
+        error: function (xhr) {
+          alert(xhr.statusText)
+        }
+      }) 
+
+// uses jquery when and done, as load geo json is async
+$.when(jsonData).done(function() {
 let mymap1 = L.map('mapid1',{
     maxZoom: 13,
     minZoom: 11,
-    layers: [street, satellite]
+    layers: [satellite, street]
 }
 ).setView([-37.81358124698001,144.96665954589844], 12);
 
@@ -17,6 +28,7 @@ let southBank      = L.marker([-37.824700770115996,  144.96597290039062]).bindPo
 
 let places = L.layerGroup([southBank, parkville, northMelbourne]);
 
+// multiple layers
 let baseMaps = {
     "street": street,
     "satellite": satellite
@@ -32,32 +44,44 @@ let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
 mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
+// add polygon layer to the map
+L.geoJSON(jsonData.responseJSON).addTo(mymap1);
+});
 
+/*
+let melData = {};
+let showData = function(){
+    console.log(JSON.stringify(melData));
+}
+// https://api.myjson.com/bins/xefh8
+// https://nominatim.openstreetmap.org/search.php?q=Melbourne&polygon_geojson=1&format=json
+// fetch melbourne polygon geojson data
+fetch(' https://api.myjson.com/bins/xefh8')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    melData = data;
+    showData();
+  })
+  .catch(err => {
+    console.log(err)
+  })
+*/
 
 // map has restricted area and zoom range form 11-13
 let mymap2 = L.map('mapid2',{
     maxZoom: 13,
     minZoom: 11,
 }).setView([-37.81358124698001,144.96665954589844], 12);
+
+let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
+    northEast = L.latLng(-37.71804716978352,  145.1781463623047);
+
 mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(mymap2);
-
-
-// fetch melbourne polygon geojson data
-fetch('https://nominatim.openstreetmap.org/search.php?q=Melbourne&polygon_geojson=1&format=json')
-  .then(response => {
-    return response.json()
-  })
-  .then(data => {
-   console.log(data[0])
-  })
-  .catch(err => {
-    console.log(err)
-  })
-
 
 // chart part
 var ctx = document.getElementById('myChart').getContext('2d');
