@@ -1,26 +1,45 @@
 // map part
+// two map tile layers
+let satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'}),
+    street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
 
-var mymap1 = L.map('mapid1',{
+let mymap1 = L.map('mapid1',{
     maxZoom: 13,
     minZoom: 11,
+    layers: [street, satellite]
 }
 ).setView([-37.81358124698001,144.96665954589844], 12);
 
+// save some places for testing
+let southBank      = L.marker([-37.824700770115996,  144.96597290039062]).bindPopup('This is SouthBank.'),
+    parkville      = L.marker([-37.78672476186113, 144.95258331298828]).bindPopup('This is Parkville.'),
+    northMelbourne = L.marker([-37.79859436217878, 144.94537353515625]).bindPopup('This is North Melbourne');
+
+let places = L.layerGroup([southBank, parkville, northMelbourne]);
+
+let baseMaps = {
+    "street": street,
+    "satellite": satellite
+};
+
+let overlayMaps = {
+    "places": places
+};
+
 // map has restricted area and zoom range form 11-13
-var southWest = L.latLng(-37.89869780196609, 144.66522216796875),
+let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
     northEast = L.latLng(-37.71804716978352,  145.1781463623047);
 mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
+L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
+
+
 // map has restricted area and zoom range form 11-13
-var mymap2 = L.map('mapid2',{
+let mymap2 = L.map('mapid2',{
     maxZoom: 13,
     minZoom: 11,
 }).setView([-37.81358124698001,144.96665954589844], 12);
 mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
-
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap1);
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -38,28 +57,6 @@ fetch('https://nominatim.openstreetmap.org/search.php?q=Melbourne&polygon_geojso
   .catch(err => {
     console.log(err)
   })
-
-  
-
-// var marker = L.marker([-37.81358124698001,144.96665954589844]).addTo(mymap1);
-
-/* var circle = L.circle([-37.81358124698001,144.96665954589844], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 500
-}).addTo(mymap1);
-*/
-
-// var polygon = L.polygon([
-   // [144.96665954589844, -37.81358124698001],
-    //[144.91665954589844, -34.81358124698001],
-    // [144.88665954589844, -35.81358124698001]
-// ]).addTo(mymap1);
-
-// marker.bindPopup("<b>Hello world!</b><br>I am a popup.").openPopup();
-// circle.bindPopup("I am a circle.");
-// polygon.bindPopup("I am a polygon.");
 
 
 // chart part
