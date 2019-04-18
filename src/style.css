@@ -1,0 +1,26 @@
+.navbar{
+    background-color: black;
+}
+
+.carousel-item {
+    height: 100vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.display-4{
+    padding-top:70px;
+    margin-top:-70px;
+}
+
+#mapid1{
+    height: 600px;
+}
+
+#mapid2{
+    height: 600px;
+}
