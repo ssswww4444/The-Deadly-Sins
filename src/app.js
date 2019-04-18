@@ -1,6 +1,22 @@
 // map part
-var mymap1 = L.map('mapid1').setView([-37.81358124698001,144.96665954589844], 10);
-var mymap2 = L.map('mapid2').setView([-37.81358124698001,144.96665954589844], 10);
+
+var mymap1 = L.map('mapid1',{
+    maxZoom: 13,
+    minZoom: 11,
+}
+).setView([-37.81358124698001,144.96665954589844], 12);
+
+// map has restricted area and zoom range form 11-13
+var southWest = L.latLng(-37.89869780196609, 144.66522216796875),
+    northEast = L.latLng(-37.71804716978352,  145.1781463623047);
+mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
+
+// map has restricted area and zoom range form 11-13
+var mymap2 = L.map('mapid2',{
+    maxZoom: 13,
+    minZoom: 11,
+}).setView([-37.81358124698001,144.96665954589844], 12);
+mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -9,6 +25,21 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(mymap2);
+
+
+// fetch melbourne polygon geojson data
+fetch('https://nominatim.openstreetmap.org/search.php?q=Melbourne&polygon_geojson=1&format=json')
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+   console.log(data[0])
+  })
+  .catch(err => {
+    console.log(err)
+  })
+
+  
 
 // var marker = L.marker([-37.81358124698001,144.96665954589844]).addTo(mymap1);
 
