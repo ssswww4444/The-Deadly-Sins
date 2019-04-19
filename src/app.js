@@ -21,10 +21,21 @@ let mymap1 = L.map('mapid1',{
 }
 ).setView([-37.81358124698001,144.96665954589844], 11);
 
+// add icon to marker
+let myIcon = L.icon({
+    iconUrl: './assets/twitter.png',
+    iconSize: [20, 20],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+    // shadowUrl: './assets/twitterShadow.png',
+    //shadowSize: [68, 95],
+    // shadowAnchor: [22, 94]
+});
+
 // save some places for testing
-let southBank      = L.marker([-37.824700770115996,  144.96597290039062]).bindPopup('This is SouthBank.'),
-    parkville      = L.marker([-37.78672476186113, 144.95258331298828]).bindPopup('This is Parkville.'),
-    northMelbourne = L.marker([-37.79859436217878, 144.94537353515625]).bindPopup('This is North Melbourne');
+let southBank      = L.marker([-37.824700770115996,  144.96597290039062],{icon: myIcon}).bindPopup('Twitter from SouthBank.'),
+    parkville      = L.marker([-37.78672476186113, 144.95258331298828],{icon: myIcon}).bindPopup('Twitter from Parkville.'),
+    northMelbourne = L.marker([-37.79859436217878, 144.94537353515625],{icon: myIcon}).bindPopup('Twitter from North Melbourne');
 
 let places = L.layerGroup([southBank, parkville, northMelbourne]);
 
@@ -45,7 +56,6 @@ mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
 
-/*
 function getColor(d) {
     return d > 100 ? '#800026' :
            d > 50  ? '#BD0026' :
@@ -56,12 +66,11 @@ function getColor(d) {
            d > 0   ? '#FED976' :
                       '#FFEDA0';
 }
-*/
+
 
 function style(feature) {
     return {
-        //fillColor: getColor(feature.properties.density),
-        fillColor: '#E31A1C',
+        fillColor: getColor(feature.properties.cartodb_id),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -69,6 +78,46 @@ function style(feature) {
         fillOpacity: 0.7
     };
 }
+
+// custom info control
+let info = L.control();
+
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    this._div.innerHTML = '<h4>Melbourne GEO Info</h4>' +  (props ?
+        '<b>' + props.name + '</b><br />' + 'ID ' + props.cartodb_id
+        : 'Hover over a polygon');
+};
+
+info.addTo(mymap1);
+
+// legend of the heat map
+let legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    let div = L.DomUtil.create('div', 'info legend'),
+        grades = [0, 2, 5, 10, 20, 50, 100],
+        labels = [];
+
+    // loop through our density intervals and generate a label with a colored square for each interval
+    for (let i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+            '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend.addTo(mymap1);
+
 
 function highlightFeature(e) {
     var layer = e.target;
@@ -83,14 +132,17 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
+
+    info.update(layer.feature.properties);
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
+    info.update();
 }
 
 function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    mymap1.fitBounds(e.target.getBounds());
 }
 
 function onEachFeature(feature, layer) {
@@ -101,13 +153,12 @@ function onEachFeature(feature, layer) {
     });
 }
 
+// add polygon layer to the map
 geojson = L.geoJson(jsonData.responseJSON, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(mymap1);
 
-// add polygon layer to the map
-// L.geoJSON(jsonData.responseJSON, {style: style}).addTo(mymap1);
 });
 
 /*
