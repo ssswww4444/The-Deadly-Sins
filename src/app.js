@@ -44,8 +44,70 @@ let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
 mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
+
+/*
+function getColor(d) {
+    return d > 100 ? '#800026' :
+           d > 50  ? '#BD0026' :
+           d > 20  ? '#E31A1C' :
+           d > 10  ? '#FC4E2A' :
+           d > 5   ? '#FD8D3C' :
+           d > 2   ? '#FEB24C' :
+           d > 0   ? '#FED976' :
+                      '#FFEDA0';
+}
+*/
+
+function style(feature) {
+    return {
+        //fillColor: getColor(feature.properties.density),
+        fillColor: '#E31A1C',
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+geojson = L.geoJson(jsonData.responseJSON, {
+    style: style,
+    onEachFeature: onEachFeature
+}).addTo(mymap1);
+
 // add polygon layer to the map
-L.geoJSON(jsonData.responseJSON).addTo(mymap1);
+// L.geoJSON(jsonData.responseJSON, {style: style}).addTo(mymap1);
 });
 
 /*
