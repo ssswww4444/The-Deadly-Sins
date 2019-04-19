@@ -15,11 +15,11 @@ var jsonData = $.ajax({
 // uses jquery when and done, as load geo json is async
 $.when(jsonData).done(function() {
 let mymap1 = L.map('mapid1',{
-    maxZoom: 13,
+    maxZoom: 12,
     minZoom: 11,
     layers: [satellite, street]
 }
-).setView([-37.81358124698001,144.96665954589844], 12);
+).setView([-37.81358124698001,144.96665954589844], 11);
 
 // save some places for testing
 let southBank      = L.marker([-37.824700770115996,  144.96597290039062]).bindPopup('This is SouthBank.'),
@@ -39,8 +39,8 @@ let overlayMaps = {
 };
 
 // map has restricted area and zoom range form 11-13
-let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
-    northEast = L.latLng(-37.71804716978352,  145.1781463623047);
+let southWest = L.latLng(-37.99869780196609, 144.56522216796875),
+    northEast = L.latLng(-37.61804716978352,  145.2781463623047);
 mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
 L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
