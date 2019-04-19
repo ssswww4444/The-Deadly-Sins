@@ -1,5 +1,6 @@
 // map part
 // two map tile layers
+
 let street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
     satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
 
@@ -46,7 +47,7 @@ let baseMaps = {
 };
 
 let overlayMaps = {
-    "places": places
+    "twitters": places
 };
 
 // map has restricted area and zoom range form 11-13
