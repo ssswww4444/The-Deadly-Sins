@@ -7,7 +7,7 @@ var jsonData = $.ajax({
         url:"http://admin:123qweasd@45.113.233.243:5984/geo_json/2adb959d243ca8869f8d9576bb0028c2",
         type: "GET",
         dataType: "json",
-        success: console.log("Data successfully loaded."),
+        success: console.log("GeoJson successfully loaded from couchDB."),
         // to log in the couchdb account
         headers: { "Authorization": "Basic " + btoa("admin" + ":" + "123qweasd")},
         error: function (xhr) {
@@ -32,6 +32,13 @@ var myIcon = L.icon({
     popupAnchor: [-3, -76],
 });
 
+var myIcon2 = L.icon({
+    iconUrl: './assets/twitterShadow.png',
+    iconSize: [20, 20],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+});
+
 // save some places for testing
 
 var array = [];
@@ -43,7 +50,7 @@ var coordinates = [
 
 coordinates.forEach(function(coordinate){
     //var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.').addTo(mymap1);
-    var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.');
+    var markerMap = L.marker((coordinate), {icon: myIcon2}).bindPopup('Here is a Twitter.');
     array.push(markerMap);
     console.log(coordinate);
 });
@@ -180,9 +187,30 @@ geojson = L.geoJson(jsonData.responseJSON, {
 
 
 // map2
+// https://api.myjson.com/bins/xefh8
+var jsonData2 = $.ajax({
+    url:"http://admin:123qweasd@45.113.233.243:5984/geo_json/2adb959d243ca8869f8d9576bb0028c2",
+    type: "GET",
+    dataType: "json",
+    success: console.log("GeoJson successfully loaded from couchDB."),
+    // to log in the couchdb account
+    headers: { "Authorization": "Basic " + btoa("admin" + ":" + "123qweasd")},
+    error: function (xhr) {
+      alert(xhr.statusText)
+    }
+  }) 
+
+
+//add polygon to the map
+$.when(jsonData2).done(function() {
+
+var base1 = L.tileLayer('https://maps.heigit.org/openmapsurfer/tiles/roads/webmercator/{z}/{x}/{y}.png', {attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}),
+    base2 =  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'});
+
 var mymap2 = L.map('mapid2',{
-    maxZoom: 13,
+    maxZoom: 12,
     minZoom: 11,
+    layers: [base1, base2]
 }).setView([-37.81358124698001,144.96665954589844], 12);
 
 var southWest = L.latLng(-37.89869780196609, 144.66522216796875),
@@ -190,9 +218,39 @@ var southWest = L.latLng(-37.89869780196609, 144.66522216796875),
 
 mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
-L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(mymap2);
+// add icon to marker
+var myIcon = L.icon({
+    iconUrl: './assets/twitter.png',
+    iconSize: [20, 20],
+    iconAnchor: [22, 94],
+    popupAnchor: [-3, -76],
+});
+
+// save some places for testing
+
+var baseMaps = {
+    "basemap 1": base1,
+    "basemap 2": base2
+};
+
+L.control.layers(baseMaps).addTo(mymap2);
+
+var array = [];
+var coordinates = [
+    [-37.854700770115996,  144.96597290039062],
+    [-37.864700770115996,  144.96597290039062],
+    [-37.77859436217878, 144.94537353515625]
+];
+
+coordinates.forEach(function(coordinate){
+    var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.').addTo(mymap2);
+    //var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.');
+    //array.push(markerMap);
+    //console.log(coordinate);
+});
+
+    L.geoJson(jsonData2).addTo(mymap2);
+});
 
 
 // chart part
