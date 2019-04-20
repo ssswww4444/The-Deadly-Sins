@@ -1,13 +1,15 @@
-// map part
+// map1
 // two map tile layers
-
 let street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
     satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
 
 var jsonData = $.ajax({
-        url:"https://api.myjson.com/bins/xefh8",
+        url:"http://admin:123qweasd@45.113.233.243:5984/geo_json/2adb959d243ca8869f8d9576bb0028c2",
+        type: "GET",
         dataType: "json",
         success: console.log("Data successfully loaded."),
+        // to log in the couchdb account
+        headers: { "Authorization": "Basic " + btoa("admin" + ":" + "123qweasd")},
         error: function (xhr) {
           alert(xhr.statusText)
         }
@@ -28,9 +30,6 @@ let myIcon = L.icon({
     iconSize: [20, 20],
     iconAnchor: [22, 94],
     popupAnchor: [-3, -76],
-    // shadowUrl: './assets/twitterShadow.png',
-    //shadowSize: [68, 95],
-    // shadowAnchor: [22, 94]
 });
 
 // save some places for testing
@@ -162,27 +161,8 @@ geojson = L.geoJson(jsonData.responseJSON, {
 
 });
 
-/*
-let melData = {};
-let showData = function(){
-    console.log(JSON.stringify(melData));
-}
-// https://api.myjson.com/bins/xefh8
-// https://nominatim.openstreetmap.org/search.php?q=Melbourne&polygon_geojson=1&format=json
-// fetch melbourne polygon geojson data
-fetch(' https://api.myjson.com/bins/xefh8')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    melData = data;
-    showData();
-  })
-  .catch(err => {
-    console.log(err)
-  })
-*/
 
-// map has restricted area and zoom range form 11-13
+// map2
 let mymap2 = L.map('mapid2',{
     maxZoom: 13,
     minZoom: 11,
@@ -196,6 +176,7 @@ mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(mymap2);
+
 
 // chart part
 var ctx = document.getElementById('myChart').getContext('2d');
