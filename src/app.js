@@ -4,7 +4,9 @@ var street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution
     satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
 
 var jsonData = $.ajax({
-        url:"http://admin:123qweasd@45.113.233.243:5984/geo_json/2adb959d243ca8869f8d9576bb0028c2",
+        // AURIN Job dataset API: http://45.113.233.243:5984/job_json/90a80a4fc502d169ebce4ee07a001fb8
+        // testing melbourne geo json API: http://admin:123qweasd@45.113.233.243:5984/geo_json/2adb959d243ca8869f8d9576bb0028c2
+        url:"http://admin:123qweasd@45.113.233.243:5984/job_json/90a80a4fc502d169ebce4ee07a001fb8",
         type: "GET",
         dataType: "json",
         success: console.log("GeoJson successfully loaded from couchDB."),
@@ -19,7 +21,7 @@ var jsonData = $.ajax({
 $.when(jsonData).done(function() {
 var mymap1 = L.map('mapid1',{
     maxZoom: 12,
-    minZoom: 11,
+    minZoom: 10,
     layers: [satellite, street]
 }
 ).setView([-37.81358124698001,144.96665954589844], 11);
@@ -66,8 +68,8 @@ var places2 = L.layerGroup(array);
 
 // multiple layers
 var baseMaps = {
-    "street": street,
-    "satellite": satellite
+    "basemap": street,
+    //"basemap": satellite
 };
 
 var overlayMaps = {
@@ -83,20 +85,20 @@ mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 L.control.layers(baseMaps, overlayMaps).addTo(mymap1);
 
 function getColor(d) {
-    return d > 100 ? '#800026' :
-           d > 50  ? '#BD0026' :
-           d > 20  ? '#E31A1C' :
-           d > 10  ? '#FC4E2A' :
-           d > 5   ? '#FD8D3C' :
-           d > 2   ? '#FEB24C' :
-           d > 0   ? '#FED976' :
+    return d > 28000 ? '#800026' :
+           d > 25000  ? '#BD0026' :
+           d > 20000  ? '#E31A1C' :
+           d > 18000  ? '#FC4E2A' :
+           d > 16000   ? '#FD8D3C' :
+           d > 15000   ? '#FEB24C' :
+           d > 10000   ? '#FED976' :
                       '#FFEDA0';
 }
 
 
 function style(feature) {
     return {
-        fillColor: getColor(feature.properties.cartodb_id),
+        fillColor: getColor(feature.properties.median_income_per_job_aud_persons),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -116,8 +118,8 @@ info.onAdd = function (map) {
 
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
-    this._div.innerHTML = '<h5>Wrath story map</h5>' +  (props ?
-        '<b>' + props.name + '</b><br />' + 'ID ' + props.cartodb_id
+    this._div.innerHTML = '<h5>Jobs</h5>' +  (props ?
+        '<b>' + props.feature_name + '</b><br />' + props.median_income_per_job_aud_persons+ ' median income'
         : 'Hover over a polygon');
 };
 
@@ -129,7 +131,7 @@ var legend = L.control({position: 'bottomright'});
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 2, 5, 10, 20, 50, 100],
+        grades = [10000, 15000, 16000, 18000, 20000, 25000, 28000],
         labels = [];
 
     // loop through our density intervals and generate a label with a colored square for each interval
