@@ -1,6 +1,6 @@
 // map1
 // two map tile layers
-let street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
+var street = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}),
     satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'});
 
 var jsonData = $.ajax({
@@ -17,7 +17,7 @@ var jsonData = $.ajax({
 
 // uses jquery when and done, as load geo json is async
 $.when(jsonData).done(function() {
-let mymap1 = L.map('mapid1',{
+var mymap1 = L.map('mapid1',{
     maxZoom: 12,
     minZoom: 11,
     layers: [satellite, street]
@@ -25,7 +25,7 @@ let mymap1 = L.map('mapid1',{
 ).setView([-37.81358124698001,144.96665954589844], 11);
 
 // add icon to marker
-let myIcon = L.icon({
+var myIcon = L.icon({
     iconUrl: './assets/twitter.png',
     iconSize: [20, 20],
     iconAnchor: [22, 94],
@@ -33,24 +33,41 @@ let myIcon = L.icon({
 });
 
 // save some places for testing
-let southBank      = L.marker([-37.824700770115996,  144.96597290039062],{icon: myIcon}).bindPopup('Twitter from SouthBank.'),
-    parkville      = L.marker([-37.78672476186113, 144.95258331298828],{icon: myIcon}).bindPopup('Twitter from Parkville.'),
+
+var array = [];
+var coordinates = [
+    [-37.854700770115996,  144.96597290039062],
+    [-37.864700770115996,  144.96597290039062],
+    [-37.77859436217878, 144.94537353515625]
+];
+
+coordinates.forEach(function(coordinate){
+    //var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.').addTo(mymap1);
+    var markerMap = L.marker((coordinate), {icon: myIcon}).bindPopup('Here is a Twitter.');
+    array.push(markerMap);
+    console.log(coordinate);
+});
+
+var southBank      = L.marker([-37.814700770115996,  144.91597290039062],{icon: myIcon}).bindPopup('Twitter from SouthBank.'),
+    parkville      = L.marker([-37.834700770115996,  144.98597290039062],{icon: myIcon}).bindPopup('Twitter from Parkville.'),
     northMelbourne = L.marker([-37.79859436217878, 144.94537353515625],{icon: myIcon}).bindPopup('Twitter from North Melbourne');
 
-let places = L.layerGroup([southBank, parkville, northMelbourne]);
+var places = L.layerGroup([southBank, parkville, northMelbourne]);
+var places2 = L.layerGroup(array);
 
 // multiple layers
-let baseMaps = {
+var baseMaps = {
     "street": street,
     "satellite": satellite
 };
 
-let overlayMaps = {
-    "twitters": places
+var overlayMaps = {
+    "twitters": places,
+    "Other twitters": places2
 };
 
 // map has restricted area and zoom range form 11-13
-let southWest = L.latLng(-37.99869780196609, 144.56522216796875),
+var southWest = L.latLng(-37.99869780196609, 144.56522216796875),
     northEast = L.latLng(-37.61804716978352,  145.2781463623047);
 mymap1.setMaxBounds(new L.LatLngBounds(southWest, northEast));
 
@@ -80,7 +97,7 @@ function style(feature) {
 }
 
 // custom info control
-let info = L.control();
+var info = L.control();
 
 info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
@@ -98,11 +115,11 @@ info.update = function (props) {
 info.addTo(mymap1);
 
 // legend of the heat map
-let legend = L.control({position: 'bottomright'});
+var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
-    let div = L.DomUtil.create('div', 'info legend'),
+    var div = L.DomUtil.create('div', 'info legend'),
         grades = [0, 2, 5, 10, 20, 50, 100],
         labels = [];
 
@@ -163,12 +180,12 @@ geojson = L.geoJson(jsonData.responseJSON, {
 
 
 // map2
-let mymap2 = L.map('mapid2',{
+var mymap2 = L.map('mapid2',{
     maxZoom: 13,
     minZoom: 11,
 }).setView([-37.81358124698001,144.96665954589844], 12);
 
-let southWest = L.latLng(-37.89869780196609, 144.66522216796875),
+var southWest = L.latLng(-37.89869780196609, 144.66522216796875),
     northEast = L.latLng(-37.71804716978352,  145.1781463623047);
 
 mymap2.setMaxBounds(new L.LatLngBounds(southWest, northEast));
