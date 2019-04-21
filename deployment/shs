@@ -1,0 +1,2 @@
+ansible-playbook playbook/docker-swarm.yml -i playbook/library/dynamic_inventory/openstack_inventory.py -e "ansible_ssh_user=ubuntu"
+

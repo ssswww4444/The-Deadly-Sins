@@ -1,0 +1,192 @@
+{
+    "instance": {
+        "keys": [
+            {
+                "name":"ccc_key"
+            }
+        ],
+        "kubernetes": {
+            "token":"zsin5c.cjiuygUbuYVUTUG3"
+        },
+        "hosts": [
+            {
+                "name": "master-instance",
+                "cores": 2,
+                "ram": 8192,
+                "volume": 40,
+                "key":"ccc_key",
+                "key_dir":"/home/ubuntu/keys",
+                "security_group":"ccc_sg",
+                "image":"4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb"
+            },
+            {
+                "name": "slave-instance-1",
+                "cores": 2,
+                "ram": 8192,
+                "volume": 70,
+                "key":"ccc_key",
+                "key_dir":"/home/ubuntu/keys",
+                "security_group":"ccc_sg",
+                "image":"4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb"
+            },
+            {
+                "name": "slave-instance-2",
+                "cores": 2,
+                "ram": 8192,
+                "volume": 70,
+                "key":"ccc_key",
+                "key_dir":"/home/ubuntu/keys",
+                "security_group":"ccc_sg",
+                "image":"4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb"
+            },
+            {
+                "name": "slave-instance-3",
+                "cores": 2,
+                "ram": 8192,
+                "volume": 70,
+                "key":"ccc_key",
+                "key_dir":"/home/ubuntu/keys",
+                "security_group":"ccc_sg",
+                "image":"4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb"
+            }
+        ],
+        "security_groups": [
+            {
+                "id": 0,
+                "name": "ccc_sg",
+                "description": "General access allowed",
+                "state": "present"
+            }
+        ],
+        "rules": [
+            {
+                "protocol": "tcp",
+                "port_range_min": 8000,
+                "port_range_max": 8000,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 80,
+                "port_range_max": 80,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 443,
+                "port_range_max": 443,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 22,
+                "port_range_max": 22,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 2377,
+                "port_range_max": 2377,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 2376,
+                "port_range_max": 2376,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 7946,
+                "port_range_max": 7946,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "udp",
+                "port_range_min": 7946,
+                "port_range_max": 7946,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "udp",
+                "port_range_min": 4789,
+                "port_range_max": 4789,
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 5984,
+                "port_range_max": 5984, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 5986,
+                "port_range_max": 5986, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 4369,
+                "port_range_max": 4369, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 9100,
+                "port_range_max": 9200, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 4040,
+                "port_range_max": 4040, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 6066,
+                "port_range_max": 6066, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 7077,
+                "port_range_max": 7077, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            {
+                "protocol": "tcp",
+                "port_range_min": 8080,
+                "port_range_max": 8881, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            },
+            
+            {
+                "protocol": "tcp",
+                "port_range_min": 7000,
+                "port_range_max": 7020, 
+                "remote_ip_prefix": "0.0.0.0/0",
+                "security_group": "ccc_sg"
+            }
+
+        ]
+    }
+}

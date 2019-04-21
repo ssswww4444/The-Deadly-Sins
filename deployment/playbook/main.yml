@@ -1,0 +1,13 @@
+- name: Collect facts
+  hosts: localhost
+  tasks:
+
+    - os_server_facts:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        server: 
+      register: facts
+

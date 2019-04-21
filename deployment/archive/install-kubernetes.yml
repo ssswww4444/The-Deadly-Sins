@@ -1,0 +1,69 @@
+
+- name: Keypair
+  hosts:
+    - master-instance
+    - slave-instance-1
+    - slave-instance-2
+    - slave-instance-3
+  become: yes
+  become_method: sudo
+  vars:
+    public_key: "{{playbook_dir}}/nectar.pub"
+    sg: "{{ansible_local.ccc_config.instance.security_groups}}"
+    remote_hosts: "{{ansible_local.ccc_config.instance.hosts}}"
+  tasks:
+    - setup:
+        fact_path: "{{playbook_dir}}/facts.d"
+    - file:
+        path: "/home/ubuntu/keys"
+        state: directory
+        mode: 0755
+    - name: Sending pem
+      copy:
+        src: "{{playbook_dir}}/nectar.pem"
+        dest: "/home/ubuntu/keys/nectar.pem"
+        mode: 060
+        directory_mode: yes
+
+    - name: update
+      command: apt update
+
+    - command: apt install apt-transport-https
+
+    - name: kubernetes_add_key
+      shell: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+    - name: kubernetes_source
+      shell: echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee -a /etc/apt/sources.list.d/kubernetes.list
+
+    - name: kubernetes_install
+      shell: apt update && sudo apt install -y kubectl
+
+    - name: Upgrade docker
+      shell: sudo apt install docker-ce -y
+
+    - name: Disabling swap
+      shell: swapoff -a
+
+    - name: Set docker engine
+      shell: |
+        cat > /etc/docker/daemon.json <<EOF
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"],
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "100m"
+            },
+            "storage-driver": "overlay2"
+          }
+        EOF
+        mkdir -p /etc/systemd/system/docker.service.d
+        systemctl daemon-reload
+        systemctl restart docker
+
+    - ufw:
+          state: enabled
+          policy: allow
+          direction: incoming
+          proto: any
+

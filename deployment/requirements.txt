@@ -1,0 +1,5 @@
+openstacksdk
+ansible
+docker
+firewalld 
+docker-compose
