@@ -1,0 +1,764 @@
+{
+    "Melbourne": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "Melbourne_melbourne-qh2-uom": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "_meta": {
+        "hostvars": {
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf": {
+                "ansible_host": "45.113.233.218", 
+                "ansible_ssh_host": "45.113.233.218", 
+                "openstack": {
+                    "OS-DCF:diskConfig": "MANUAL", 
+                    "OS-EXT-AZ:availability_zone": "melbourne-qh2-uom", 
+                    "OS-EXT-SRV-ATTR:hypervisor_hostname": null, 
+                    "OS-EXT-SRV-ATTR:instance_name": null, 
+                    "OS-EXT-SRV-ATTR:user_data": null, 
+                    "OS-EXT-STS:power_state": 1, 
+                    "OS-EXT-STS:task_state": null, 
+                    "OS-EXT-STS:vm_state": "active", 
+                    "OS-SCH-HNT:scheduler_hints": null, 
+                    "OS-SRV-USG:launched_at": "2019-04-13T04:07:43.000000", 
+                    "OS-SRV-USG:terminated_at": null, 
+                    "accessIPv4": "45.113.233.218", 
+                    "accessIPv6": "", 
+                    "addresses": {
+                        "qh2-uom": [
+                            {
+                                "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:e2:0a:4c", 
+                                "OS-EXT-IPS:type": "fixed", 
+                                "addr": "45.113.233.218", 
+                                "version": 4
+                            }
+                        ]
+                    }, 
+                    "adminPass": null, 
+                    "az": "melbourne-qh2-uom", 
+                    "block_device_mapping": null, 
+                    "cloud": "envvars", 
+                    "config_drive": "", 
+                    "created": "2019-04-13T04:07:28Z", 
+                    "created_at": "2019-04-13T04:07:28Z", 
+                    "disk_config": "MANUAL", 
+                    "flavor": {
+                        "id": "cba9ea52-8e90-468b-b8c2-777a94d81ed3", 
+                        "name": "m2.tiny"
+                    }, 
+                    "has_config_drive": false, 
+                    "hostId": "7717828ba39dca5d043ec9a95042733eaf81ee176559d30f29c81009", 
+                    "host_id": "7717828ba39dca5d043ec9a95042733eaf81ee176559d30f29c81009", 
+                    "hypervisor_hostname": null, 
+                    "id": "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+                    "image": {
+                        "id": "4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb", 
+                        "name": "NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 (pre-installed murano-agent with Docker)"
+                    }, 
+                    "instance_name": null, 
+                    "interface_ip": "45.113.233.218", 
+                    "key_name": "ccc_key", 
+                    "launched_at": "2019-04-13T04:07:43.000000", 
+                    "location": {
+                        "cloud": "envvars", 
+                        "project": {
+                            "domain_id": "default", 
+                            "domain_name": null, 
+                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "name": "unimelb-comp90024-group-48"
+                        }, 
+                        "region_name": "Melbourne", 
+                        "zone": "melbourne-qh2-uom"
+                    }, 
+                    "metadata": {}, 
+                    "name": "slave-instance-1", 
+                    "networks": {}, 
+                    "os-extended-volumes:volumes_attached": [
+                        {
+                            "id": "169d4937-255a-47ee-941b-743fc59d7dae"
+                        }
+                    ], 
+                    "personality": null, 
+                    "power_state": 1, 
+                    "private_v4": "", 
+                    "progress": 0, 
+                    "project_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                    "properties": {
+                        "OS-DCF:diskConfig": "MANUAL", 
+                        "OS-EXT-AZ:availability_zone": "melbourne-qh2-uom", 
+                        "OS-EXT-SRV-ATTR:hypervisor_hostname": null, 
+                        "OS-EXT-SRV-ATTR:instance_name": null, 
+                        "OS-EXT-SRV-ATTR:user_data": null, 
+                        "OS-EXT-STS:power_state": 1, 
+                        "OS-EXT-STS:task_state": null, 
+                        "OS-EXT-STS:vm_state": "active", 
+                        "OS-SCH-HNT:scheduler_hints": null, 
+                        "OS-SRV-USG:launched_at": "2019-04-13T04:07:43.000000", 
+                        "OS-SRV-USG:terminated_at": null, 
+                        "os-extended-volumes:volumes_attached": [
+                            {
+                                "id": "169d4937-255a-47ee-941b-743fc59d7dae"
+                            }
+                        ]
+                    }, 
+                    "public_v4": "45.113.233.218", 
+                    "public_v6": "", 
+                    "region": "Melbourne", 
+                    "scheduler_hints": null, 
+                    "security_groups": [
+                        {
+                            "description": "general purpose, ssh, http, https, db", 
+                            "id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                            "location": {
+                                "cloud": "envvars", 
+                                "project": {
+                                    "domain_id": "default", 
+                                    "domain_name": null, 
+                                    "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                    "name": "unimelb-comp90024-group-48"
+                                }, 
+                                "region_name": "Melbourne", 
+                                "zone": null
+                            }, 
+                            "name": "ccc_sg", 
+                            "project_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "properties": {}, 
+                            "security_group_rules": [
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "0ca32c30-6298-46df-a986-4ccc88fe5cf5", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 22, 
+                                    "port_range_min": 22, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "19d2acb0-4ce0-474c-b938-5cc7f4b97834", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 443, 
+                                    "port_range_min": 443, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "8f99d045-137e-4e93-884f-7db849f2a228", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 80, 
+                                    "port_range_min": 80, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "a62f55d5-51ed-4962-96d2-55d3525b08fe", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 5984, 
+                                    "port_range_min": 5984, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "e0f87da5-a7a0-4ffe-b476-40c99f3ce2bb", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 8080, 
+                                    "port_range_min": 8000, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }
+                            ], 
+                            "tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b"
+                        }
+                    ], 
+                    "status": "ACTIVE", 
+                    "tags": [], 
+                    "task_state": null, 
+                    "tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                    "terminated_at": null, 
+                    "updated": "2019-04-13T04:58:49Z", 
+                    "user_data": null, 
+                    "user_id": "9446f8d57412418f83a5a014d7afb65f", 
+                    "vm_state": "active", 
+                    "volumes": [
+                        {
+                            "attachments": [
+                                {
+                                    "attached_at": "2019-04-13T04:08:09.000000", 
+                                    "attachment_id": "6a99da0a-14ba-47b2-b0dd-2f34cd69e955", 
+                                    "device": "/dev/vdb", 
+                                    "host_name": null, 
+                                    "id": "169d4937-255a-47ee-941b-743fc59d7dae", 
+                                    "server_id": "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+                                    "volume_id": "169d4937-255a-47ee-941b-743fc59d7dae"
+                                }
+                            ], 
+                            "availability_zone": "melbourne-qh2-uom", 
+                            "bootable": false, 
+                            "can_multiattach": false, 
+                            "consistencygroup_id": null, 
+                            "created_at": "2019-04-12T06:54:15.000000", 
+                            "description": null, 
+                            "device": "/dev/vdb", 
+                            "display_description": null, 
+                            "display_name": "vol-slave", 
+                            "encrypted": false, 
+                            "host": null, 
+                            "id": "169d4937-255a-47ee-941b-743fc59d7dae", 
+                            "is_bootable": false, 
+                            "is_encrypted": false, 
+                            "location": {
+                                "cloud": "envvars", 
+                                "project": {
+                                    "domain_id": "default", 
+                                    "domain_name": null, 
+                                    "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                    "name": "unimelb-comp90024-group-48"
+                                }, 
+                                "region_name": "Melbourne", 
+                                "zone": "melbourne-qh2-uom"
+                            }, 
+                            "metadata": {
+                                "attached_mode": "rw", 
+                                "readonly": "False"
+                            }, 
+                            "migration_status": null, 
+                            "multiattach": false, 
+                            "name": "vol-slave", 
+                            "os-vol-tenant-attr:tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "properties": {
+                                "os-vol-tenant-attr:tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                "source_volid": null, 
+                                "user_id": "9446f8d57412418f83a5a014d7afb65f"
+                            }, 
+                            "replication_driver": null, 
+                            "replication_extended_status": null, 
+                            "replication_status": null, 
+                            "size": 40, 
+                            "snapshot_id": null, 
+                            "source_volid": null, 
+                            "source_volume_id": null, 
+                            "status": "in-use", 
+                            "updated_at": "2019-04-13T04:08:09.000000", 
+                            "user_id": "9446f8d57412418f83a5a014d7afb65f", 
+                            "volume_type": "melbourne"
+                        }
+                    ]
+                }
+            }, 
+            "a78f32a6-be57-4396-95f3-467f76eac56f": {
+                "ansible_host": "45.113.232.146", 
+                "ansible_ssh_host": "45.113.232.146", 
+                "openstack": {
+                    "OS-DCF:diskConfig": "MANUAL", 
+                    "OS-EXT-AZ:availability_zone": "melbourne-qh2-uom", 
+                    "OS-EXT-SRV-ATTR:hypervisor_hostname": null, 
+                    "OS-EXT-SRV-ATTR:instance_name": null, 
+                    "OS-EXT-SRV-ATTR:user_data": null, 
+                    "OS-EXT-STS:power_state": 1, 
+                    "OS-EXT-STS:task_state": null, 
+                    "OS-EXT-STS:vm_state": "active", 
+                    "OS-SCH-HNT:scheduler_hints": null, 
+                    "OS-SRV-USG:launched_at": "2019-04-13T04:07:14.000000", 
+                    "OS-SRV-USG:terminated_at": null, 
+                    "accessIPv4": "45.113.232.146", 
+                    "accessIPv6": "", 
+                    "addresses": {
+                        "qh2-uom": [
+                            {
+                                "OS-EXT-IPS-MAC:mac_addr": "fa:16:3e:32:ea:13", 
+                                "OS-EXT-IPS:type": "fixed", 
+                                "addr": "45.113.232.146", 
+                                "version": 4
+                            }
+                        ]
+                    }, 
+                    "adminPass": null, 
+                    "az": "melbourne-qh2-uom", 
+                    "block_device_mapping": null, 
+                    "cloud": "envvars", 
+                    "config_drive": "", 
+                    "created": "2019-04-13T04:03:01Z", 
+                    "created_at": "2019-04-13T04:03:01Z", 
+                    "disk_config": "MANUAL", 
+                    "flavor": {
+                        "id": "cba9ea52-8e90-468b-b8c2-777a94d81ed3", 
+                        "name": "m2.tiny"
+                    }, 
+                    "has_config_drive": false, 
+                    "hostId": "7717828ba39dca5d043ec9a95042733eaf81ee176559d30f29c81009", 
+                    "host_id": "7717828ba39dca5d043ec9a95042733eaf81ee176559d30f29c81009", 
+                    "hypervisor_hostname": null, 
+                    "id": "a78f32a6-be57-4396-95f3-467f76eac56f", 
+                    "image": {
+                        "id": "4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb", 
+                        "name": "NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 (pre-installed murano-agent with Docker)"
+                    }, 
+                    "instance_name": null, 
+                    "interface_ip": "45.113.232.146", 
+                    "key_name": "ccc_key", 
+                    "launched_at": "2019-04-13T04:07:14.000000", 
+                    "location": {
+                        "cloud": "envvars", 
+                        "project": {
+                            "domain_id": "default", 
+                            "domain_name": null, 
+                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "name": "unimelb-comp90024-group-48"
+                        }, 
+                        "region_name": "Melbourne", 
+                        "zone": "melbourne-qh2-uom"
+                    }, 
+                    "metadata": {}, 
+                    "name": "master-instance", 
+                    "networks": {}, 
+                    "os-extended-volumes:volumes_attached": [
+                        {
+                            "id": "7ef72ac7-3ca5-463f-99a0-9f54d8da2609"
+                        }
+                    ], 
+                    "personality": null, 
+                    "power_state": 1, 
+                    "private_v4": "", 
+                    "progress": 0, 
+                    "project_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                    "properties": {
+                        "OS-DCF:diskConfig": "MANUAL", 
+                        "OS-EXT-AZ:availability_zone": "melbourne-qh2-uom", 
+                        "OS-EXT-SRV-ATTR:hypervisor_hostname": null, 
+                        "OS-EXT-SRV-ATTR:instance_name": null, 
+                        "OS-EXT-SRV-ATTR:user_data": null, 
+                        "OS-EXT-STS:power_state": 1, 
+                        "OS-EXT-STS:task_state": null, 
+                        "OS-EXT-STS:vm_state": "active", 
+                        "OS-SCH-HNT:scheduler_hints": null, 
+                        "OS-SRV-USG:launched_at": "2019-04-13T04:07:14.000000", 
+                        "OS-SRV-USG:terminated_at": null, 
+                        "os-extended-volumes:volumes_attached": [
+                            {
+                                "id": "7ef72ac7-3ca5-463f-99a0-9f54d8da2609"
+                            }
+                        ]
+                    }, 
+                    "public_v4": "45.113.232.146", 
+                    "public_v6": "", 
+                    "region": "Melbourne", 
+                    "scheduler_hints": null, 
+                    "security_groups": [
+                        {
+                            "description": "general purpose, ssh, http, https, db", 
+                            "id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                            "location": {
+                                "cloud": "envvars", 
+                                "project": {
+                                    "domain_id": "default", 
+                                    "domain_name": null, 
+                                    "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                    "name": "unimelb-comp90024-group-48"
+                                }, 
+                                "region_name": "Melbourne", 
+                                "zone": null
+                            }, 
+                            "name": "ccc_sg", 
+                            "project_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "properties": {}, 
+                            "security_group_rules": [
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "0ca32c30-6298-46df-a986-4ccc88fe5cf5", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 22, 
+                                    "port_range_min": 22, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "19d2acb0-4ce0-474c-b938-5cc7f4b97834", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 443, 
+                                    "port_range_min": 443, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "8f99d045-137e-4e93-884f-7db849f2a228", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 80, 
+                                    "port_range_min": 80, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "a62f55d5-51ed-4962-96d2-55d3525b08fe", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 5984, 
+                                    "port_range_min": 5984, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }, 
+                                {
+                                    "direction": "ingress", 
+                                    "ethertype": "IPv4", 
+                                    "group": {}, 
+                                    "id": "e0f87da5-a7a0-4ffe-b476-40c99f3ce2bb", 
+                                    "location": {
+                                        "cloud": "envvars", 
+                                        "project": {
+                                            "domain_id": "default", 
+                                            "domain_name": null, 
+                                            "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                            "name": "unimelb-comp90024-group-48"
+                                        }, 
+                                        "region_name": "Melbourne", 
+                                        "zone": null
+                                    }, 
+                                    "port_range_max": 8080, 
+                                    "port_range_min": 8000, 
+                                    "project_id": "", 
+                                    "properties": {
+                                        "group": {}
+                                    }, 
+                                    "protocol": "tcp", 
+                                    "remote_group_id": null, 
+                                    "remote_ip_prefix": "0.0.0.0/0", 
+                                    "security_group_id": "b36ae43f-7299-43aa-9703-dbcf9eb64f7b", 
+                                    "tenant_id": ""
+                                }
+                            ], 
+                            "tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b"
+                        }
+                    ], 
+                    "status": "ACTIVE", 
+                    "tags": [], 
+                    "task_state": null, 
+                    "tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                    "terminated_at": null, 
+                    "updated": "2019-04-13T04:57:49Z", 
+                    "user_data": null, 
+                    "user_id": "9446f8d57412418f83a5a014d7afb65f", 
+                    "vm_state": "active", 
+                    "volumes": [
+                        {
+                            "attachments": [
+                                {
+                                    "attached_at": "2019-04-13T04:07:58.000000", 
+                                    "attachment_id": "50aff9b5-c273-4640-ae4a-8011fb48270d", 
+                                    "device": "/dev/vdb", 
+                                    "host_name": null, 
+                                    "id": "7ef72ac7-3ca5-463f-99a0-9f54d8da2609", 
+                                    "server_id": "a78f32a6-be57-4396-95f3-467f76eac56f", 
+                                    "volume_id": "7ef72ac7-3ca5-463f-99a0-9f54d8da2609"
+                                }
+                            ], 
+                            "availability_zone": "melbourne-qh2-uom", 
+                            "bootable": false, 
+                            "can_multiattach": false, 
+                            "consistencygroup_id": null, 
+                            "created_at": "2019-04-12T06:54:07.000000", 
+                            "description": null, 
+                            "device": "/dev/vdb", 
+                            "display_description": null, 
+                            "display_name": "vol-master", 
+                            "encrypted": false, 
+                            "host": null, 
+                            "id": "7ef72ac7-3ca5-463f-99a0-9f54d8da2609", 
+                            "is_bootable": false, 
+                            "is_encrypted": false, 
+                            "location": {
+                                "cloud": "envvars", 
+                                "project": {
+                                    "domain_id": "default", 
+                                    "domain_name": null, 
+                                    "id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                    "name": "unimelb-comp90024-group-48"
+                                }, 
+                                "region_name": "Melbourne", 
+                                "zone": "melbourne-qh2-uom"
+                            }, 
+                            "metadata": {
+                                "attached_mode": "rw", 
+                                "readonly": "False"
+                            }, 
+                            "migration_status": null, 
+                            "multiattach": false, 
+                            "name": "vol-master", 
+                            "os-vol-tenant-attr:tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                            "properties": {
+                                "os-vol-tenant-attr:tenant_id": "bf76a81ed05f466b9e86ddb92fd6d92b", 
+                                "source_volid": null, 
+                                "user_id": "9446f8d57412418f83a5a014d7afb65f"
+                            }, 
+                            "replication_driver": null, 
+                            "replication_extended_status": null, 
+                            "replication_status": null, 
+                            "size": 40, 
+                            "snapshot_id": null, 
+                            "source_volid": null, 
+                            "source_volume_id": null, 
+                            "status": "in-use", 
+                            "updated_at": "2019-04-13T04:07:59.000000", 
+                            "user_id": "9446f8d57412418f83a5a014d7afb65f", 
+                            "volume_type": "melbourne"
+                        }
+                    ]
+                }
+            }
+        }
+    }, 
+    "all": {
+        "children": [
+            "Melbourne", 
+            "Melbourne_melbourne-qh2-uom", 
+            "envvars", 
+            "envvars_Melbourne", 
+            "envvars_Melbourne_melbourne-qh2-uom", 
+            "flavor-m2.tiny", 
+            "image-NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 (pre-installed murano-agent with Docker)", 
+            "instance-9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "instance-a78f32a6-be57-4396-95f3-467f76eac56f", 
+            "master-instance", 
+            "melbourne-qh2-uom", 
+            "slave-instance-1", 
+            "ungrouped"
+        ]
+    }, 
+    "envvars": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "envvars_Melbourne": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "envvars_Melbourne_melbourne-qh2-uom": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "flavor-m2.tiny": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "image-NeCTAR Ubuntu 18.04 LTS (Bionic) amd64 (pre-installed murano-agent with Docker)": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "instance-9f4e5704-18e1-422b-a0f3-730ea26fcfaf": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf"
+        ]
+    }, 
+    "instance-a78f32a6-be57-4396-95f3-467f76eac56f": {
+        "hosts": [
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "master-instance": {
+        "hosts": [
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "melbourne-qh2-uom": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf", 
+            "a78f32a6-be57-4396-95f3-467f76eac56f"
+        ]
+    }, 
+    "slave-instance-1": {
+        "hosts": [
+            "9f4e5704-18e1-422b-a0f3-730ea26fcfaf"
+        ]
+    }, 
+    "ungrouped": {}
+}

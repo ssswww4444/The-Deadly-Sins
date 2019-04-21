@@ -1,0 +1,59 @@
+
+
+- name: Keypair
+  hosts: localhost
+  vars:
+    public_key: "{{playbook_dir}}/nectar.pub"
+    sg: "{{ansible_local.ccc_config.instance.security_groups}}"
+    remote_hosts: "{{ansible_local.ccc_config.instance.hosts}}"
+  tasks:
+    - setup:
+        fact_path: "{{playbook_dir}}/facts.d"
+    - os_keypair:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        state: present
+        name: ccc_key
+        public_key_file: "{{public_key}}"
+
+    - name: Launch a ubuntu master instance
+      os_server:
+        state: present
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        name: "{{item.name}}"
+        image: "{{item.image}}"
+        timeout: 400
+        auto_ip: yes
+        flavor_ram: "{{item.ram}}"
+        key: "{{playbook_dir}}/nectar.pem"
+        key_name: "{{item.key}}"
+        security_groups: "{{item.security_group}}"
+      with_items:
+        - "{{remote_hosts}}"
+
+    - name: create 40G test volume
+      os_volume:
+        state: present
+        size: "{{item.volume}}"
+        display_name: "vol-{{item.name}}"
+        availability_zone: melbourne-qh2-uom
+      with_items:
+        - "{{remote_hosts}}"
+
+    - name: attach a volume to host
+      os_server_volume:
+        state: present
+        server: "{{item.name}}"
+        volume: "vol-{{item.name}}"
+      with_items:
+        - "{{remote_hosts}}"
+
+
+        

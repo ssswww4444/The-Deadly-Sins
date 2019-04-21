@@ -1,0 +1,37 @@
+- name: Setup
+  hosts: localhost
+
+  vars:
+    public_key: "{{playbook_dir}}/nectar.pub"
+    sg: "{{ansible_local.ccc_config.instance.security_groups}}"
+    sg_rules: "{{ansible_local.ccc_config.instance.rules}}"
+  tasks:
+    - setup:
+        fact_path: "{{playbook_dir}}/facts.d"
+    - os_keypair:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        state: present
+        name: ccc_key
+        public_key_file: "{{public_key}}"
+        
+
+    - os_security_group:
+        name: "{{item.name}}"
+        state: "{{item.state}}"
+        description: "{{item.description}}"
+      with_items:
+        - "{{sg}}"
+
+    - os_security_group_rule:
+        security_group: "{{item.security_group}}"
+        protocol: "{{item.protocol}}"
+        port_range_min: "{{item.port_range_min}}"
+        port_range_max: "{{item.port_range_max}}"
+        remote_ip_prefix: "{{item.remote_ip_prefix}}"
+      with_items:
+        - "{{sg_rules}}"
+    

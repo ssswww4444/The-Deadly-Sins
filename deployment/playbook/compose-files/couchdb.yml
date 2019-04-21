@@ -1,0 +1,17 @@
+# Do deploy service on docker_swarm
+# create a registry
+
+version: '3'
+services:
+  couch_db:
+    image: couchdb
+    volumes:
+      - ./config.ini:/opt/couchdb/etc/local.d/docker.ini
+      - ./vm.args:/opt/couchdb/etc/vm.args
+      - /var/logs/couchdb.log:/opt/couchdb/log/couch.log
+      - /mnt/couchdb_data:/opt/couchdb/data
+    ports:
+      - "5984:5984"
+      - "4369:4369"
+      - "9100-9200:9100-9200"
+    

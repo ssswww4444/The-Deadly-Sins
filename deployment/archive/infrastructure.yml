@@ -1,0 +1,139 @@
+
+- name: Keypair
+  hosts: localhost
+  vars:
+    public_key: "{{playbook_dir}}/nectar.pub"
+  tasks:
+    - meta: refresh_inventory
+    - os_keypair:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        state: present
+        name: ccc_key
+        public_key_file: "{{public_key}}"
+
+- name: Security Group
+  hosts: localhost
+  tasks:
+    - os_security_group:
+        name: ccc_sg
+        state: present
+        description: general purpose, ssh, http, https, db
+
+    - os_security_group_rule:
+        security_group: ccc_sg
+        protocol: tcp
+        port_range_min: 80
+        port_range_max: 80
+        remote_ip_prefix: 0.0.0.0/0
+
+    - os_security_group_rule:
+        security_group: ccc_sg
+        protocol: tcp
+        port_range_min: 443
+        port_range_max: 443
+        remote_ip_prefix: 0.0.0.0/0
+
+    - os_security_group_rule:
+        security_group: ccc_sg
+        protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
+        remote_ip_prefix: 0.0.0.0/0
+    
+    - os_security_group_rule:
+        security_group: ccc_sg
+        protocol: tcp
+        port_range_min: 5984
+        port_range_max: 5984
+        remote_ip_prefix: 0.0.0.0/0
+
+    - os_security_group_rule:
+        security_group: ccc_sg
+        protocol: tcp
+        port_range_min: 1000
+        port_range_max: 8080
+        remote_ip_prefix: 0.0.0.0/0
+
+
+- name : Create an infrastructures
+  hosts: localhost
+  vars:
+    master: master-instance
+    slave: slave-instance
+  tasks:
+    - name: Launch a ubuntu master instance
+      os_server:
+        state: present
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        name: "{{master}}"
+        image: 4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb
+        timeout: 400
+        auto_ip: yes
+        flavor_ram: 512
+        key: "{{playbook_dir}}/nectar.pem"
+        key_name: ccc_key
+        security_groups: ccc_sg
+    
+
+    - name: Launch a ubuntu slave instance
+      os_server:
+        state: present
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        name: "{{slave}}-1"
+        image: 4c5b48a0-fb86-4f4f-a98b-81e3af15e2eb
+        timeout: 400
+        auto_ip: yes
+        flavor_ram: 512
+        key: "{{playbook_dir}}/nectar.pem"
+        key_name: ccc_key
+        security_groups: ccc_sg
+
+
+- name: Create and attach volumes
+  hosts: localhost
+  vars:
+    master: master-instance
+    slave: slave-instance
+  tasks:
+    - name: create 40G test volume
+      os_volume:
+        state: present
+        size: 40
+        display_name: vol-master
+        availability_zone: melbourne-qh2-uom
+    
+    - name: create 40G test volume
+      os_volume:
+        state: present
+        size: 40
+        display_name: vol-slave
+        availability_zone: melbourne-qh2-uom
+
+    - name: attach a volume to host
+      os_server_volume:
+        state: present
+        server: "{{master}}"
+        volume: vol-master
+    
+    
+
+    - name: attach a volume to host
+      os_server_volume:
+        state: present
+        server: "{{slave}}-1"
+        volume: vol-slave
+
+
+        

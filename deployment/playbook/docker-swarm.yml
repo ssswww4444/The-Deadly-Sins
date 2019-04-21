@@ -1,0 +1,79 @@
+# ssh-add
+- name: Collect facts
+  hosts: localhost
+  tasks:
+
+    - os_server_facts:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        server: 
+
+
+
+
+
+- name: Create swarm and join as master
+  hosts: master-instance
+  become: yes
+  become_method: sudo
+  tasks:
+    
+    - name: Create docker swarm
+      docker_swarm:
+        state: present
+        name: default
+        key_path: "/home/ubuntu/keys/nectar.pem"
+        cert_path: "/home/ubuntu/keys/nectar.pem"
+        advertise_addr: eth0:2377
+        
+      register: swarm
+
+    - name: Join manager to docker swarm
+      docker_swarm:
+        state: join
+        advertise_addr: eth0:2377
+        listen_addr: eth0:2377
+        remote_addrs: master-instance
+        key_path: "/home/ubuntu/keys/nectar.pem"
+        cert_path: "/home/ubuntu/keys/nectar.pem"
+
+        join_token: "{{swarm.swarm_facts.JoinTokens.Manager}}"
+
+- name: Test
+  hosts: localhost
+  tasks:
+    - debug:
+        var: 1
+
+- name: Join Swarm
+  hosts: 
+    - slave-instance-1
+    - slave-instance-2
+    - slave-instance-3
+  become: yes
+  become_method: sudo
+  vars:
+    token: "{{hostvars[groups['master-instance'][0]].swarm.swarm_facts.JoinTokens.Worker}}"
+    manager_ip: "{{hostvars[groups['master-instance'][0]].ansible_host}}"
+  tasks:
+
+  
+    - name: Join worker to docker swarm
+      command:
+      args:
+        argv:
+          - docker
+          - swarm
+          - join
+          - "--token={{token}}"
+          - "{{manager_ip}}"
+        
+      
+
+
+
+
+        

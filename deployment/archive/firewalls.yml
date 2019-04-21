@@ -1,0 +1,16 @@
+
+
+
+
+
+- name: Firewalls
+  hosts: 
+    - master-instance
+    - slave-instance-1
+    - slave-instance-2
+    - slave-instance-3
+  become: yes
+  become_method: sudo
+  tasks:
+    - meta: refresh_inventory
+    
