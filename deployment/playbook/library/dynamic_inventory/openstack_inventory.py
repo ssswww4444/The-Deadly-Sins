@@ -111,7 +111,7 @@ def get_groups_from_server(server_vars, namegroup=True):
         groups.append('%s_%s' % (region, az))
         groups.append('%s_%s_%s' % (cloud, region, az))
 
-    with open('test', 'w') as f :
+    with open('tmp_inv.json', 'w') as f :
         import json
         json.dump(server_vars,f)
 
