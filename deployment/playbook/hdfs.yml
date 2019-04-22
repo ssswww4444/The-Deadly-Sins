@@ -28,6 +28,7 @@
       - /log/hadoop
   become: yes
   become_method: sudo
+<<<<<<< HEAD
 
   tasks:
     - file:
@@ -39,6 +40,11 @@
 
     - file:
         path: "{{item}}"
+=======
+  tasks:
+    - file:
+        path: "{{item}}"
+>>>>>>> still working on hdfs
         state: directory
         mode: 0755
       with_items:
@@ -51,21 +57,39 @@
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
 
     - name: Sending scripts
+=======
+    - name: Sending compose env
+      copy:
+        src: "{{playbook_dir}}/compose-files/hadoop/.env"
+        dest: "/home/ubuntu/hadoop/.env"
+        mode: '666'
+        directory_mode: yes
+
+    - name: Sending compose scripts
+>>>>>>> still working on hdfs
       copy:
         src: "{{playbook_dir}}/compose-files/hadoop/scripts"
         dest: "/home/ubuntu/hadoop/"
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
     - name: Sending hadoop master config file
       copy:
         src: "{{playbook_dir}}/etc/hadoop-master"
+=======
+    - name: Sending hadoop config file
+      copy:
+        src: "{{playbook_dir}}/etc/hadoop"
+>>>>>>> still working on hdfs
         dest: "/etc/"
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
     - name: Sending hadoop slave config file
       copy:
         src: "{{playbook_dir}}/etc/hadoop-slave"
@@ -74,6 +98,15 @@
         directory_mode: yes
 
 
+=======
+    - name: Sending dockerrc
+      copy:
+        src: "{{playbook_dir}}/etc/hadoop/.dockerrc"
+        dest: "/home/ubuntu/hadoop/.dockerrc"
+        mode: '666'
+        directory_mode: yes
+
+>>>>>>> still working on hdfs
     - name: Sending ssh config
       copy:
         src: "{{playbook_dir}}/etc/ssh/sshd_config"
