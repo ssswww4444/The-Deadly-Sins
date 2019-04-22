@@ -1,5 +1,7 @@
 import json
 import requests, getpass
+import os
+import datetime
 
 
 class CouchAgent:
@@ -22,6 +24,10 @@ class CouchAgent:
 
 
     def init_db(self):
+        """
+        Create some initial databases
+        :return:
+        """
         username = self.username
         password = self.password
         resp = requests.put(
@@ -62,6 +68,10 @@ class CouchAgent:
         return resp
 
     def disable_cluster(self):
+        """
+        Change to standalone mode
+        :return:
+        """
         username = self.username
         password = self.password
         resp = requests.post(
@@ -78,6 +88,10 @@ class CouchAgent:
         return resp
 
     def uuid_setup(self):
+        """
+        Set up unique id for node
+        :return:
+        """
         username = self.username
         password = self.password
 
@@ -102,6 +116,12 @@ class CouchAgent:
         )
 
     def init_join(self,  remote_host, remote_port=5984):
+        """
+        Enable cluster mode for nodes
+        :param remote_host:
+        :param remote_port:
+        :return:
+        """
         username = self.username
         password = self.password
 
@@ -127,13 +147,17 @@ class CouchAgent:
         return resp
 
     def join_node(self, remote_host, remote_port=5984):
+        """
+        Join a node to cluster
+        :param remote_host:
+        :param remote_port:
+        :return:
+        """
         username = self.username
         password = self.password
 
         remote_username = input("Remote username")
         remote_password = getpass.getpass("Remote password")
-
-
 
         resp = requests.post(
             'http://{0}:{1}@{2}:{3}/_cluster_setup'.format(username, password, self.host, self.port),
@@ -180,11 +204,15 @@ class CouchAgent:
         return resp
 
 
+
+
 if __name__ == "__main__":
+    resp = {}
+    config_file = 'N/A'
     # master = '45.113.233.243'
-    slave1 = '45.113.233.215'
-    slave2 = '45.113.233.232'
-    slave3 = '45.113.233.227'
+    slave1 = '45.113.233.243'
+    slave2 = '45.113.235.196'
+    slave3 = '45.113.233.232'
     # agent = CouchAgent(master, name='master', username='admin', password='123qweasd')
     slave_agent_1 = CouchAgent(slave1, name='slave1', username='admin', password='123qweasd')
     slave_agent_2 = CouchAgent(slave2, name='slave2', username='admin', password='123qweasd')
@@ -201,14 +229,13 @@ if __name__ == "__main__":
     #slave_agent_3.uuid_setup()
 
     #slave_agent_1.init_join(remote_host=slave1)
-    slave_agent_1.init_join(remote_host=slave2)
-    slave_agent_1.init_join(remote_host=slave3)
+    #slave_agent_1.init_join(remote_host=slave2)
+    #slave_agent_1.init_join(remote_host=slave3)
 
     #resp = slave_agent_1.join_node(remote_host=slave1)
-    resp = slave_agent_1.join_node(remote_host=slave2)
-    resp = slave_agent_1.join_node(remote_host=slave3)
+    # resp = slave_agent_1.join_node(remote_host=slave2)
+    # resp = slave_agent_1.join_node(remote_host=slave3)
 
-    resp = slave_agent_1.finalize_cluster()
+    #resp = slave_agent_1.finalize_cluster()
 
-
-    print(resp.content)
+    #print(resp.content)
