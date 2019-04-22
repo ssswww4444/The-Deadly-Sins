@@ -54,6 +54,7 @@
       register: output
     
     - command: docker-compose -f couchdb/docker-compose.yml restart
+    
 
 
 
