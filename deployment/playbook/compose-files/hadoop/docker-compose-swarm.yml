@@ -7,9 +7,16 @@ services:
     # Master serves as namenode
     image: wylswz/hadoop:swarm
     environment:
-      - HADOOP_HOME=${HADOOP_HOME}
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
       - PATH=${PATH}
       - HADOOP_VERSION=${HADOOP_VERSION}
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
       
     ports:
       - "3000:3000"
@@ -50,11 +57,16 @@ services:
   slave_1:
     image: wylswz/hadoop:swarm
     environment:
-      - HADOOP_HOME=${HADOOP_HOME}
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
       - PATH=${PATH}
       - HADOOP_VERSION=${HADOOP_VERSION}
-    depends_on: 
-      - master
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
     deploy:
       mode: replicated
       replicas: 1
@@ -82,11 +94,16 @@ services:
   slave_2:
       image: wylswz/hadoop:swarm
       environment:
-        - HADOOP_HOME=${HADOOP_HOME}
+        - HADOOP_HOME=/usr/local/hadoop-2.9.2
         - PATH=${PATH}
         - HADOOP_VERSION=${HADOOP_VERSION}
-      depends_on: 
-        - master
+        - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+        - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+        - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
       deploy:
         mode: replicated
         replicas: 1
@@ -115,11 +132,16 @@ services:
   slave_3:
     image: wylswz/hadoop:swarm
     environment:
-      - HADOOP_HOME=${HADOOP_HOME}
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
       - PATH=${PATH}
       - HADOOP_VERSION=${HADOOP_VERSION}
-    depends_on: 
-      - master
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
     deploy:
       mode: replicated
       replicas: 1

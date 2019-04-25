@@ -41,6 +41,10 @@
   <name>dfs.permissions.enabled</name>
   <value>false</value>
 </property>
+<property>
+  <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+  <value>false</value>
+</property>
 
 <!--property>
   <name>dfs.blocksize</name>
