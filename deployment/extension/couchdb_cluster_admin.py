@@ -232,9 +232,9 @@ if __name__ == "__main__":
     #slave_agent_1.init_join(remote_host=slave2)
     #slave_agent_1.init_join(remote_host=slave3)
 
-    #resp = slave_agent_1.join_node(remote_host=slave1)
-    # resp = slave_agent_1.join_node(remote_host=slave2)
-    # resp = slave_agent_1.join_node(remote_host=slave3)
+    # resp = slave_agent_1.join_node(remote_host=slave1)
+    resp = slave_agent_1.join_node(remote_host=slave2)
+    resp = slave_agent_1.join_node(remote_host=slave3)
 
     #resp = slave_agent_1.finalize_cluster()
 
