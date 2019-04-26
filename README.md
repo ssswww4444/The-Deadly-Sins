@@ -29,3 +29,13 @@ Clusters and Cloud Computing Assignment 2
    
 ### Spark design decisions
 
+### Hadoop swarm mode deployment
+
+Connection refuse problem:
+- Binding container alias for server won't listen to external port
+- Binding 0.0.0.0 for worker doesn't locate the server location
+
+Solution:
+- Separate master and worker configuration file
+- Master bind to 0.0.0.0
+- Worker bind to master alias
