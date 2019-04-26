@@ -1,0 +1,84 @@
+- name: Collect facts
+  hosts: localhost
+  tasks:
+
+    - os_server_facts:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        server: 
+      register: facts
+
+- name: Deploy hdfs
+  hosts:
+    - master-instance
+    - slave-instance-1
+    - slave-instance-2
+    - slave-instance-3
+  vars:
+    dirs:
+      - /home/ubuntu/hadoop
+      - /etc/hadoop
+      - /mnt/hadoop/data/hadoop/hdfs/data
+      - /mnt/hadoop/data/hadoop/hdfs/name
+      - /mnt/hadoop/data/hadoop/yarn/local
+      - /mnt/hadoop/data/tmp/logs
+      - /log/hadoop
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - file:
+        path: "{{item}}"
+        state: absent
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
+
+    - file:
+        path: "{{item}}"
+        state: directory
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
+
+    - name: Sending compose file
+      copy:
+        src: "{{playbook_dir}}/compose-files/hadoop/docker-compose-swarm.yml"
+        dest: "/home/ubuntu/hadoop/docker-compose.yml"
+        mode: '666'
+        directory_mode: yes
+
+
+    - name: Sending scripts
+      copy:
+        src: "{{playbook_dir}}/compose-files/hadoop/scripts"
+        dest: "/home/ubuntu/hadoop/"
+        mode: '666'
+        directory_mode: yes
+
+    - name: Sending hadoop master config file
+      copy:
+        src: "{{playbook_dir}}/etc/hadoop-master"
+        dest: "/etc/"
+        mode: '666'
+        directory_mode: yes
+
+    - name: Sending hadoop slave config file
+      copy:
+        src: "{{playbook_dir}}/etc/hadoop-slave"
+        dest: "/etc/"
+        mode: '666'
+        directory_mode: yes
+
+
+    - name: Sending ssh config
+      copy:
+        src: "{{playbook_dir}}/etc/ssh/sshd_config"
+        dest: "/etc/ssh/sshd_config_hadoop"
+        mode: '666'
+        directory_mode: no
+
+    

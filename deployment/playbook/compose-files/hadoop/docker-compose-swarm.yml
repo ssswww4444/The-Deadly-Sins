@@ -1,0 +1,172 @@
+# TODO
+# - swarm
+version: '3'
+
+services:
+  master:
+    # Master serves as namenode
+    image: wylswz/hadoop:swarm
+    environment:
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
+      - PATH=${PATH}
+      - HADOOP_VERSION=${HADOOP_VERSION}
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      
+    ports:
+      - "3000:3000"
+      - "50070:50070"
+      - "8088:8088"
+      - "19888:19888"
+      - "8032:8032"
+      - "8020:8020"
+      - "8090:8090"
+      - "8031:8031"
+
+    command: bash -c "service ssh start && sleep infinity " 
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      hadoop_swarm_network_1:
+        aliases:
+          - hadoop.master
+    volumes:
+      - /etc/hadoop-master:/usr/local/hadoop-2.9.2/etc/hadoop
+      - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
+      - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
+      - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
+      - /mnt/hadoop/data/hadoop/yarn/local:/data/hadoop/yarn/local
+      - /mnt/hadoop/data/tmp/logs:/data/tmp/logs
+    
+      
+      # Enable root ssh log in 
+      # TODO: 6 conf
+    
+    tty: true
+    stdin_open: true
+  
+  slave_1:
+    image: wylswz/hadoop:swarm
+    environment:
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
+      - PATH=${PATH}
+      - HADOOP_VERSION=${HADOOP_VERSION}
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+          - node.hostname == slave-instance-1
+    command: bash -c "service ssh start && sleep infinity " 
+     # Start ssh service
+    networks: 
+      hadoop_swarm_network_1:
+        aliases:
+          - hadoop.slave_1
+    volumes:
+      - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
+      - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
+      - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
+      - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
+      - /mnt/hadoop/data/hadoop/yarn/local:/data/hadoop/yarn/local
+      - /mnt/hadoop/data/tmp/logs:/data/tmp/logs
+
+    tty: true
+    stdin_open: true
+  slave_2:
+      image: wylswz/hadoop:swarm
+      environment:
+        - HADOOP_HOME=/usr/local/hadoop-2.9.2
+        - PATH=${PATH}
+        - HADOOP_VERSION=${HADOOP_VERSION}
+        - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+        - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+        - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+        - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          constraints:
+            - node.role == worker
+            - node.hostname == slave-instance-2
+      command: bash -c "service ssh start && sleep infinity " 
+      # Start ssh service
+      networks: 
+        hadoop_swarm_network_1:
+          aliases:
+            - hadoop.slave_2
+      volumes:
+        - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
+        - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+        - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
+        - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
+        - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
+        - /mnt/hadoop/data/hadoop/yarn/local:/data/hadoop/yarn/local
+        - /mnt/hadoop/data/tmp/logs:/data/tmp/logs
+
+      tty: true
+      stdin_open: true
+    
+  slave_3:
+    image: wylswz/hadoop:swarm
+    environment:
+      - HADOOP_HOME=/usr/local/hadoop-2.9.2
+      - PATH=${PATH}
+      - HADOOP_VERSION=${HADOOP_VERSION}
+      - HADOOP_PREFIX=/usr/local/hadoop-2.9.2
+      - HADOOP_COMMON_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_HDFS_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_MAPRED_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
+      - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+          - node.hostname == slave-instance-3
+    command: bash -c "service ssh start && sleep infinity " 
+     # Start ssh service
+    networks: 
+      hadoop_swarm_network_1:
+        aliases:
+          - hadoop.slave_3
+    volumes:
+      - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
+      - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
+      - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
+      - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
+      - /mnt/hadoop/data/hadoop/yarn/local:/data/hadoop/yarn/local
+      - /mnt/hadoop/data/tmp/logs:/data/tmp/logs
+
+    tty: true
+    stdin_open: true
+    
+networks:
+  hadoop_swarm_network_1: 
+    driver: overlay
+    

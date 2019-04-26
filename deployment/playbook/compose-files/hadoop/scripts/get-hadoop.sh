@@ -1,0 +1,1 @@
+wget http://ftp.jaist.ac.jp/pub/apache/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz ..
