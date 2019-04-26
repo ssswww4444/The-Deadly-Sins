@@ -1,0 +1,81 @@
+.navbar{
+    background-color: black;
+}
+
+.carousel-item {
+    height: 100vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.display-4{
+    padding-top:70px;
+    margin-top:-70px;
+}
+
+#mapid1{
+    height: 600px;
+}
+
+#mapid2{
+    height: 600px;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+footer{
+    left: 0;
+    width: 100%;
+    background-color:black;
+    color: white;
+    text-align: center;
+    height: 70px;
+}
+
+.text-muted{
+    vertical-align: middle;
+    line-height: 70px; 
+}
+
+#member{
+    text-align:center;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
