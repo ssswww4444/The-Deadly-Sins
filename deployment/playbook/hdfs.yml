@@ -29,6 +29,7 @@
   become: yes
   become_method: sudo
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   tasks:
     - file:
@@ -45,6 +46,19 @@
     - file:
         path: "{{item}}"
 >>>>>>> still working on hdfs
+=======
+
+  tasks:
+    - file:
+        path: "{{item}}"
+        state: absent
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
+
+    - file:
+        path: "{{item}}"
+>>>>>>> hadoop deployment
         state: directory
         mode: 0755
       with_items:
@@ -58,6 +72,7 @@
         directory_mode: yes
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     - name: Sending scripts
 =======
@@ -70,12 +85,17 @@
 
     - name: Sending compose scripts
 >>>>>>> still working on hdfs
+=======
+
+    - name: Sending scripts
+>>>>>>> hadoop deployment
       copy:
         src: "{{playbook_dir}}/compose-files/hadoop/scripts"
         dest: "/home/ubuntu/hadoop/"
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     - name: Sending hadoop master config file
       copy:
@@ -85,10 +105,16 @@
       copy:
         src: "{{playbook_dir}}/etc/hadoop"
 >>>>>>> still working on hdfs
+=======
+    - name: Sending hadoop master config file
+      copy:
+        src: "{{playbook_dir}}/etc/hadoop-master"
+>>>>>>> hadoop deployment
         dest: "/etc/"
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     - name: Sending hadoop slave config file
       copy:
@@ -100,13 +126,20 @@
 
 =======
     - name: Sending dockerrc
+=======
+    - name: Sending hadoop slave config file
+>>>>>>> hadoop deployment
       copy:
-        src: "{{playbook_dir}}/etc/hadoop/.dockerrc"
-        dest: "/home/ubuntu/hadoop/.dockerrc"
+        src: "{{playbook_dir}}/etc/hadoop-slave"
+        dest: "/etc/"
         mode: '666'
         directory_mode: yes
 
+<<<<<<< HEAD
 >>>>>>> still working on hdfs
+=======
+
+>>>>>>> hadoop deployment
     - name: Sending ssh config
       copy:
         src: "{{playbook_dir}}/etc/ssh/sshd_config"
