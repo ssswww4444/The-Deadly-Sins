@@ -28,7 +28,15 @@
       - /log/hadoop
   become: yes
   become_method: sudo
+
   tasks:
+    - file:
+        path: "{{item}}"
+        state: absent
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
+
     - file:
         path: "{{item}}"
         state: directory
@@ -43,33 +51,28 @@
         mode: '666'
         directory_mode: yes
 
-    - name: Sending compose env
-      copy:
-        src: "{{playbook_dir}}/compose-files/hadoop/.env"
-        dest: "/home/ubuntu/hadoop/.env"
-        mode: '666'
-        directory_mode: yes
 
-    - name: Sending compose scripts
+    - name: Sending scripts
       copy:
         src: "{{playbook_dir}}/compose-files/hadoop/scripts"
         dest: "/home/ubuntu/hadoop/"
         mode: '666'
         directory_mode: yes
 
-    - name: Sending hadoop config file
+    - name: Sending hadoop master config file
       copy:
-        src: "{{playbook_dir}}/etc/hadoop"
+        src: "{{playbook_dir}}/etc/hadoop-master"
         dest: "/etc/"
         mode: '666'
         directory_mode: yes
 
-    - name: Sending dockerrc
+    - name: Sending hadoop slave config file
       copy:
-        src: "{{playbook_dir}}/etc/hadoop/.dockerrc"
-        dest: "/home/ubuntu/hadoop/.dockerrc"
+        src: "{{playbook_dir}}/etc/hadoop-slave"
+        dest: "/etc/"
         mode: '666'
         directory_mode: yes
+
 
     - name: Sending ssh config
       copy:

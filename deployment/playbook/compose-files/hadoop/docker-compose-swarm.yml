@@ -34,12 +34,11 @@ services:
         constraints:
           - node.role == manager
     networks:
-      hadoop_network:
+      hadoop_swarm_network_1:
         aliases:
           - hadoop.master
     volumes:
-      - /etc/hadoop:/usr/local/hadoop-2.9.2/etc/hadoop
-      - ./.dockerrc:/.dockerrc
+      - /etc/hadoop-master:/usr/local/hadoop-2.9.2/etc/hadoop
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
@@ -73,15 +72,15 @@ services:
       placement:
         constraints:
           - node.role == worker
+          - node.hostname == slave-instance-1
     command: bash -c "service ssh start && sleep infinity " 
      # Start ssh service
     networks: 
-      hadoop_network:
+      hadoop_swarm_network_1:
         aliases:
           - hadoop.slave_1
     volumes:
-      - /etc/hadoop/:/usr/local/hadoop-2.9.2/etc/hadoop/
-      - ./.dockerrc:/.dockerrc
+      - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
@@ -110,15 +109,15 @@ services:
         placement:
           constraints:
             - node.role == worker
+            - node.hostname == slave-instance-2
       command: bash -c "service ssh start && sleep infinity " 
       # Start ssh service
       networks: 
-        hadoop_network:
+        hadoop_swarm_network_1:
           aliases:
             - hadoop.slave_2
       volumes:
-        - /etc/hadoop/:/usr/local/hadoop-2.9.2/etc/hadoop/
-        - ./.dockerrc:/.dockerrc
+        - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
         - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
         - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
         - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
@@ -148,15 +147,15 @@ services:
       placement:
         constraints:
           - node.role == worker
+          - node.hostname == slave-instance-3
     command: bash -c "service ssh start && sleep infinity " 
      # Start ssh service
     networks: 
-      hadoop_network:
+      hadoop_swarm_network_1:
         aliases:
           - hadoop.slave_3
     volumes:
-      - /etc/hadoop/:/usr/local/hadoop-2.9.2/etc/hadoop/
-      - ./.dockerrc:/.dockerrc
+      - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
@@ -168,6 +167,6 @@ services:
     stdin_open: true
     
 networks:
-  hadoop_network: 
+  hadoop_swarm_network_1: 
     driver: overlay
     
