@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  web-master:
+    image: wylswz/nginx-swarm
+    ports:
+      - '80:8080'
+      - '443:443'
+    
+    volumes:
+      - './etc/nginx-master:/etc/nginx'
+      - './src:/usr/share/nginx/html'
+
+    command: [nginx, '-g', 'daemon off;']
+    networks:
+      nginx-net:
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+  web-slave:
+    image: wylswz/nginx-swarm
+
+    volumes:
+      - './etc/nginx-slave:/etc/nginx'
+      - './src:/usr/share/nginx/html'
+    command: [nginx, '-g', 'daemon off;']
+    networks:
+      nginx-net:
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      mode: replicated
+      replicas: 2
+
+networks:
+  nginx-net:
+    driver: overlay
+    
