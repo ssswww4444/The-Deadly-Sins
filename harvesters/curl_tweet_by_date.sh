@@ -1,5 +1,7 @@
 #!/bin/bash
-
+if [ ! -d "tmp" ]; then
+  mkdir "tmp"
+fi
 curl "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary" \
 -G \
 --data-urlencode 'start_key=["melbourne",2018,1,1]' \
