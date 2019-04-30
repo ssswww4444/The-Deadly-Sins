@@ -1,6 +1,6 @@
 #!/bin/bash
-if [ ! -d "tmp" ]; then
-  mkdir "tmp"
+if [ ! -d "/tmp/twitter" ]; then
+  mkdir "/tmp/twitter"
 fi
 curl "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary" \
 -G \
@@ -9,4 +9,4 @@ curl "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary" \
 --data-urlencode 'reduce=false' \
 --data-urlencode 'include_docs=true' \
 --user "readonly:ween7ighai9gahR6" \
--o tmp/tweet_by_date.json
+-o /tmp/twitter/tweet_by_date.json
