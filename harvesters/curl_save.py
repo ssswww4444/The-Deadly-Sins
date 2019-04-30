@@ -5,6 +5,8 @@ import os
 import subprocess
 
 # json files
+JSON_PATH = "json_files/"
+DB_AUTH_FILENAME = "db_auth.json"
 DATA_DIR = "/tmp/twitter/"
 LOC_FILE = "tweet_by_loc.json"
 DATE_FILE = "tweet_by_date.json"
@@ -24,13 +26,13 @@ def curl_by_loc():
     """ Curl tweets by location """
     if os.path.exists(DATA_DIR + LOC_FILE):
         return
-    subprocess.call("bash", CURL_LOC_BASH)
+    subprocess.call(["bash", CURL_LOC_BASH])
 
 def curl_by_date():
     """ Curl tweets by date """
     if os.path.exists(DATA_DIR + DATE_FILE):
         return
-    subprocess.call("bash", CURL_DATE_BASH)
+    subprocess.call(["bash", CURL_DATE_BASH])
 
 def read_jsons():
     """ Read required json data files """
@@ -63,7 +65,7 @@ def main():
     db_auth = read_jsons()
     
     # db url
-    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] 
+    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] \
             + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
 
     # initialise DB
