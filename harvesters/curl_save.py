@@ -33,7 +33,7 @@ def curl_by_date():
     subprocess.call("bash", CURL_DATE_BASH)
 
 def read_jsons():
-
+    """ Read required json data files """
     with open(JSON_PATH + DB_AUTH_FILENAME, "r") as f:
         db_auth = json.load(f)
 
