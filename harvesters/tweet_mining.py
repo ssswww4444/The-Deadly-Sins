@@ -1,11 +1,21 @@
 from TwitterAPI.TwitterAPI import TwitterAPI
 import json
+import argparse
 
 # json files
 JSON_PATH = "json_files/"
 DB_AUTH_FILENAME = "db_auth.json"
 TWITTER_API_FILENAME = "twitterAPI_auth.json"
 BOUNDING_FILENAME = "bounding_box.json"
+
+def get_args():
+    """ Obtaining args from terminal """
+    parser = argparse.ArgumentParser(description="Processing tweets")
+    # filenames
+    parser.add_argument("-db", "--db_name", type = str, required = True, help = "Name of Database for storing")
+    args = parser.parse_args()
+    
+    return args
 
 def read_jsons():
     # bounding boxes for twitter stream API
@@ -26,21 +36,24 @@ def twitter_streaming(api, storage, bounding):
     for item in api.request("statuses/filter", {"locations": bounding["Victoria"]}):
         if "text" in item:
             print('%s -- %s\n' % (item['user']['screen_name'], item['text']))
-            # save tweet to database
-            storage.save_tweet(item)
+            storage.save_tweet(item)    # save tweet to database
         elif 'message' in item:
             print('ERROR %s: %s\n' % (item['code'], item['message']))
 
 def main():
 
+    # get arguments
+    args = get_args()
+
     # read required json files
     bounding, db_auth, api_auth = read_jsons()
 
     # db url
-    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
+    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] 
+            + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
 
     # initialise db and twitter api
-    storage = TweetStore("twitter_db", url)
+    storage = TweetStore(args.db_name, url)
     api = TwitterAPI(api_auth["API_KEY"],
                      api_auth["API_SECRET"], 
                      api_auth["ACCESS_TOKEN"], 
