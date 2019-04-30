@@ -7,7 +7,7 @@ import subprocess
 # json files
 JSON_PATH = "json_files/"
 DB_AUTH_FILENAME = "db_auth.json"
-DATA_DIR = "/tmp/twitter/"
+DATA_DIR = "/mnt/twitter/"
 LOC_FILE = "tweet_by_loc.json"
 DATE_FILE = "tweet_by_date.json"
 CURL_LOC_BASH = "curl_tweet_by_date.sh"
