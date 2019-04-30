@@ -50,8 +50,8 @@ def main():
     bounding, db_auth, api_auth = read_jsons()
 
     # db url
-    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] 
-            + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
+    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] \
+                    + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
 
     # initialise db and twitter api
     storage = TweetStore(args.db_name, url)
