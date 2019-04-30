@@ -1,6 +1,7 @@
 from TwitterAPI.TwitterAPI import TwitterAPI
 import json
 import argparse
+from twitter_db import TweetStore
 
 # json files
 JSON_PATH = "json_files/"
