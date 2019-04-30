@@ -1,82 +1,53 @@
-import couchdb
 from TwitterAPI.TwitterAPI import TwitterAPI
-from couchdb import design
+import json
 
-class TweetStore(object):
+# json files
+JSON_PATH = "json_files/"
+DB_AUTH_FILENAME = "db_auth.json"
+TWITTER_API_FILENAME = "twitterAPI_auth.json"
+BOUNDING_FILENAME = "bounding_box.json"
 
-    def __init__(self, dbname, url):
-        """ create a tweet store(db) or open an existing db """
-        try:
-            self.server = couchdb.Server(url=url)
-            # new db
-            self.db = self.server.create(dbname)
-            # initialise views
-            self._create_views()
-        except couchdb.http.PreconditionFailed:
-            # existing db
-            self.db = self.server[dbname]
-    
-    def _create_views(self):
-        """ create 2 views for the database """
+def read_jsons():
+    # bounding boxes for twitter stream API
+    with open(JSON_PATH + BOUNDING_FILENAME, "r") as f:
+        bounding = json.load(f)
 
-        # view 1: return total count of tweets
-        count_map = "function(doc) { emit(doc.id,1); }"
-        count_reduce = "function(keys, values) { return sum(values); }"
-        view = design.ViewDefinition("twitter",       # design document
-                                     "count_tweets",  # view name
-                                     count_map,       # map
-                                     reduce_fun=count_reduce)
-        
-        view.sync(self.db)
+    with open(JSON_PATH + DB_AUTH_FILENAME, "r") as f:
+        db_auth = json.load(f)
 
-        # view 2: return all stored tweet documents
-        get_tweets = "function(doc) { emit(('0000000000000000000' + doc.id).slice(-19), doc); }"
-        view = design.ViewDefinition("twitter",
-                                     "get_tweets",
-                                     get_tweets)
-        view.sync(self.db)
-
-    def save_tweet(self, tweet):
-        """ save tweet returned by twitter with tweet id as doc_id """
-        tweet["_id"] = tweet["id_str"]
-        # save new tweet document
-        try:
-            self.db.save(tweet)
-        except:
-            pass
-
-    def count_tweets(self):
-        """ method for returning view 1 """
-        for doc in self.db.view("twitter/count_tweets"):
-            return doc.values
-    
-    def get_tweets(self):
-        """ method for returning view 2 """
-        return self.db.view("twitter/get_tweets")
-
-def main():
-    # mining
     # Twitter authentication credentials
-    API_KEY = "lmi60axPXTB1XZc7Us7o3PKWE"
-    API_SECRET = "gMkhRWPnnwcUpNhg2QqsADuLC4PR66opqlX1J6srpfBONunR7X"
-    ACCESS_TOKEN = "1107074333698981889-bzffZA2f5djoFeV30veP1oHBLNXeab"
-    ACCESS_TOKEN_SECRET = "CMckhw2NaULIqKnp5DcIqcwJaE1nAyfT2SMqzbnxllGoY"
+    with open(JSON_PATH + TWITTER_API_FILENAME, "r") as f:
+        api_auth = json.load(f)
 
-    # db url
-    url = "http://admin:123qweasd@45.113.233.232:5984/"
+    return bounding, db_auth, api_auth
 
-    # initialise db and twitter api
-    storage = TweetStore("twitter_db", url)
-    api = TwitterAPI(API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-
+def twitter_streaming(api, storage, bounding):
     # requesting tweets (in bounding box of Victoria)
-    for item in api.request("statuses/filter", {"locations": "140.961681984, -39.159189527500004, 149.976679008, -33.9806475865"}):
+    for item in api.request("statuses/filter", {"locations": bounding["Victoria"]}):
         if "text" in item:
             print('%s -- %s\n' % (item['user']['screen_name'], item['text']))
             # save tweet to database
             storage.save_tweet(item)
         elif 'message' in item:
             print('ERROR %s: %s\n' % (item['code'], item['message']))
+
+def main():
+
+    # read required json files
+    bounding, db_auth, api_auth = read_jsons()
+
+    # db url
+    url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] + "@" + db_auth["ip"] + ":" + db_auth["port"] + "/"
+
+    # initialise db and twitter api
+    storage = TweetStore("twitter_db", url)
+    api = TwitterAPI(api_auth["API_KEY"],
+                     api_auth["API_SECRET"], 
+                     api_auth["ACCESS_TOKEN"], 
+                     api_auth["ACCESS_TOKEN_SECRET"])
+
+    # start streaming
+    twitter_streaming(api, storage, bounding)
 
 if __name__ == "__main__":
     main()
