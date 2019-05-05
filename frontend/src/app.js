@@ -119,7 +119,8 @@ info.onAdd = function (map) {
 // method that we will use to update the control based on feature properties passed
 info.update = function (props) {
     this._div.innerHTML = '<h5>Jobs</h5>' +  (props ?
-        '<b>' + props.feature_name + '</b><br />' + props.median_income_per_job_aud_persons+ ' median income'
+        '<b>' + props.feature_name + '</b><br />' + props.median_income_per_job_aud_persons+ ' median income ' + '<br />'
+        + props.num_tweets + ' total tweets' +  '<br />' +props.num_negative_tweets + ' negative tweets'
         : 'Hover over a polygon');
 };
 
