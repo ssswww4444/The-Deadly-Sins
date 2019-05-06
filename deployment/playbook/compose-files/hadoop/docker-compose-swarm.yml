@@ -1,6 +1,6 @@
 # TODO
 # - swarm
-version: '3'
+version: '3.7'
 
 services:
   master:
@@ -21,6 +21,7 @@ services:
     ports:
       - "3000:3000"
       - "50070:50070"
+      - "50090:50090"
       - "8088:8088"
       - "19888:19888"
       - "8032:8032"
@@ -28,11 +29,12 @@ services:
       - "8090:8090"
       - "8031:8031"
 
-    command: bash -c "service ssh start && sleep infinity " 
+    command: bash -c "tail /etc/newhosts -n 4 >> /etc/hosts && service ssh start && sleep infinity " 
     deploy:
       placement:
         constraints:
           - node.role == manager
+    hostname: master-instance
     networks:
       hadoop_swarm_network_1:
         aliases:
@@ -40,6 +42,7 @@ services:
     volumes:
       - /etc/hadoop-master:/usr/local/hadoop-2.9.2/etc/hadoop
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /etc/hosts:/etc/newhosts
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
       - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
@@ -73,8 +76,26 @@ services:
         constraints:
           - node.role == worker
           - node.hostname == slave-instance-1
-    command: bash -c "service ssh start && sleep infinity " 
+    command: bash -c "tail /etc/newhosts -n 4 >> /etc/hosts && service ssh start && sleep infinity " 
      # Start ssh service
+    ports:
+      - target: 50075
+        published: 50075
+        protocol: tcp
+        mode: host
+      - target: 50475
+        published: 50475
+        protocol: tcp
+        mode: host
+      - target: 50010
+        published: 50010
+        protocol: tcp
+        mode: host
+      - target: 50020
+        published: 50020
+        protocol: tcp
+        mode: host
+    hostname: slave-instance-1
     networks: 
       hadoop_swarm_network_1:
         aliases:
@@ -82,6 +103,7 @@ services:
     volumes:
       - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /etc/hosts:/etc/newhosts
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
       - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
@@ -103,6 +125,7 @@ services:
         - HADOOP_YARN_HOME=/usr/local/hadoop-2.9.2
         - HADOOP_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
         - YARN_CONF_DIR=/usr/local/hadoop-2.9.2/etc/hadoop
+      hostname: slave-instance-2
       deploy:
         mode: replicated
         replicas: 1
@@ -110,8 +133,25 @@ services:
           constraints:
             - node.role == worker
             - node.hostname == slave-instance-2
-      command: bash -c "service ssh start && sleep infinity " 
+      command: bash -c "tail /etc/newhosts -n 4 >> /etc/hosts && service ssh start && sleep infinity " 
       # Start ssh service
+      ports:
+        - target: 50075
+          published: 50075
+          protocol: tcp
+          mode: host
+        - target: 50475
+          published: 50475
+          protocol: tcp
+          mode: host
+        - target: 50010
+          published: 50010
+          protocol: tcp
+          mode: host
+        - target: 50020
+          published: 50020
+          protocol: tcp
+          mode: host
       networks: 
         hadoop_swarm_network_1:
           aliases:
@@ -119,6 +159,7 @@ services:
       volumes:
         - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
         - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+        - /etc/hosts:/etc/newhosts
         - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
         - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
         - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
@@ -148,8 +189,26 @@ services:
         constraints:
           - node.role == worker
           - node.hostname == slave-instance-3
-    command: bash -c "service ssh start && sleep infinity " 
+    command: bash -c "tail /etc/newhosts -n 4 >> /etc/hosts && service ssh start && sleep infinity " 
      # Start ssh service
+    ports:
+      - target: 50075
+        published: 50075
+        protocol: tcp
+        mode: host
+      - target: 50475
+        published: 50475
+        protocol: tcp
+        mode: host
+      - target: 50010
+        published: 50010
+        protocol: tcp
+        mode: host
+      - target: 50020
+        published: 50020
+        protocol: tcp
+        mode: host
+    hostname: slave-instance-3
     networks: 
       hadoop_swarm_network_1:
         aliases:
@@ -157,6 +216,7 @@ services:
     volumes:
       - /etc/hadoop-slave/:/usr/local/hadoop-2.9.2/etc/hadoop/
       - /etc/ssh/sshd_config_hadoop:/etc/ssh/sshd_config
+      - /etc/hosts:/etc/newhosts
       - /log/hadoop:/usr/local/hadoop-2.9.2/logs/
       - /mnt/hadoop/data/hadoop/hdfs/data:/data/hadoop/hdfs/data
       - /mnt/hadoop/data/hadoop/hdfs/name:/data/hadoop/hdfs/name
@@ -165,6 +225,82 @@ services:
 
     tty: true
     stdin_open: true
+
+  spark-master:
+    image: wylswz/spark-2:2.4.1
+    command: bin/spark-class org.apache.spark.deploy.master.Master
+    networks:
+      hadoop_swarm_network_1:
+        aliases:
+          - master-instance-spark
+    hostname: master-instance-spark
+    environment:
+      MASTER: spark://master-instance-spark:7077
+      SPARK_CONF_DIR: /etc/spark_conf
+      HADOOP_CONF_DIR: /etc/hadoop
+      TERM: xterm
+      SPARK_LOCAL_IP: 0.0.0.0
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+
+    
+    expose:
+      - 7001
+      - 7002
+      - 7003
+      - 7004
+      - 7005
+      - 7006
+      - 7077
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /etc/hadoop-slave:/etc/hadoop
+      - /mnt/data:/tmp/data
+      - /etc/spark_conf:/etc/spark_conf
+
+  spark-worker-1:
+    image: wylswz/spark-2:2.4.1
+    # sudo docker exec -it $(sudo docker ps | grep spark | awk '{print $1}') bin/spark-class org.apache.spark.deploy.worker.Worker spark://master-instance-spark:7077
+    command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://master-instance-spark:7077
+    networks:
+      hadoop_swarm_network_1:
+    environment:
+      SPARK_CONF_DIR: /etc/spark_conf
+      SPARK_WORKER_CORES: 2
+      HADOOP_CONF_DIR: /etc/hadoop
+      SPARK_WORKER_MEMORY: 1g
+      SPARK_WORKER_PORT: 8881
+      SPARK_WORKER_WEBUI_PORT: 8081
+      TERM: xterm
+    depends_on:
+      - spark-master
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - node.role == worker
+    expose:
+      - 7012
+      - 7013
+      - 7014
+      - 7015
+      - 7016
+    ports:
+      - 8081:8081
+
+    volumes:
+      - /mnt/data:/tmp/data
+      - /etc/hosts:/etc/hosts
+      - /etc/spark_conf:/etc/spark_conf
+      - /etc/hadoop-slave:/etc/hadoop
     
 networks:
   hadoop_swarm_network_1: 

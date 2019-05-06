@@ -30,19 +30,19 @@
   become_method: sudo
 
   tasks:
-    - file:
-        path: "{{item}}"
-        state: absent
-        mode: 0755
-      with_items:
-        - "{{dirs}}"
+    # - file:
+    #     path: "{{item}}"
+    #     state: absent
+    #     mode: 0755
+    #   with_items:
+    #     - "{{dirs}}"
 
-    - file:
-        path: "{{item}}"
-        state: directory
-        mode: 0755
-      with_items:
-        - "{{dirs}}"
+    # - file:
+    #     path: "{{item}}"
+    #     state: directory
+    #     mode: 0755
+    #   with_items:
+    #     - "{{dirs}}"
 
     - name: Sending compose file
       copy:
@@ -80,5 +80,19 @@
         dest: "/etc/ssh/sshd_config_hadoop"
         mode: '666'
         directory_mode: no
+
+    - file:
+        path: /mnt/data
+        state: directory
+        mode: 0755
+    - file:
+        path: /etc/spark_conf
+        state: directory
+        mode: 0755
+    - file:
+        path: /home/ubuntu/spark
+        state: directory
+        mode: 0755
+
 
     
