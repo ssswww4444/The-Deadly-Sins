@@ -1,0 +1,33 @@
+- name: Collect facts
+  hosts: localhost
+  tasks:
+
+    - os_server_facts:
+        auth:
+          auth_url: "{{lookup('env','OS_AUTH_URL')}}"
+          username: "{{lookup('env','OS_USERNAME')}}"
+          password: "{{lookup('env','OS_PASSWORD')}}"
+          project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
+        server: 
+      register: facts
+
+    
+
+
+- name: Deploy Coachdb
+  become: yes
+  become_method: sudo
+  hosts:
+    - slave-instance-1
+    - slave-instance-2
+    - slave-instance-3
+
+  tasks:
+
+    - command: docker-compose -f couchdb/docker-compose.yml up
+    
+
+
+
+    
+   
