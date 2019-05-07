@@ -1,6 +1,6 @@
 import json
 import argparse
-from twitter_db import TweetStore
+from db import TweetStore
 import os
 import subprocess
 import sys
@@ -10,11 +10,11 @@ JSON_PATH = "json_files/"
 DATA_PATH = "/mnt/twitter/"
 BASH_PATH = "bash_files/"
 FILE_DICT = {
-    "db_auth": "db_auth.json"
-    "loc": "tweet_by_loc.json"
-    "date": "tweet_by_date.json"
-    "loc_bash": "curl_tweet_by_date.sh"
-    "date_bash": "curl_tweet_by_date.sh"
+    "db_auth": "db_auth.json",
+    "loc": "tweet_by_loc.json",
+    "date": "tweet_by_date.json",
+    "loc_bash": "curl_by_date.sh",
+    "date_bash": "curl_by_date.sh"
 }
 
 def get_args():
@@ -39,7 +39,8 @@ def curl_by_loc():
 
 def curl_by_date(year, month):
     """ Curl tweets by date """
-    if os.path.exists(DATA_PATH + FILE_DICT["date"]):
+    filename = DATA_PATH + FILE_DICT["date"][:-5] + f"_{year}_{month}" + ".json"
+    if os.path.exists(filename):
         return
     subprocess.call(["bash", BASH_PATH + FILE_DICT["date_bash"], year, month])
 
@@ -50,7 +51,15 @@ def read_jsons():
 
     return db_auth
 
-def read_tweets(filename, storage, year, month):
+def fix_line(line):
+    """ Fix the line readed for coverting into json """
+    # need to end with "}"
+    i = -1
+    while line[i] != "}":
+        i -= 1
+    return line[:i+1]
+
+def read_tweets(filename, storage, args):
     """ read each tweet from file and save to db """
     filename = DATA_PATH + filename[:-5] + f"_{args.year}_{args.month}" + ".json"
     with open(filename, "r", encoding="utf-8") as f:
