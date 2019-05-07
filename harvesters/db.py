@@ -16,7 +16,7 @@ class TweetStore(object):
             self.db = self.server[dbname]
     
     def _create_views(self):
-        """ create 2 views for the database """
+        """ create 2 default views for the database """
         # view 1: return total count of tweets
         count_map = "function(doc) { emit(doc.id,1); }"
         count_reduce = "function(keys, values) { return sum(values); }"
