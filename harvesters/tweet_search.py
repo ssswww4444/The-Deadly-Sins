@@ -39,8 +39,11 @@ def read_jsons():
 
 def twitter_search(api, storage, query):
     """ Real-time twitter streaming """
-    # requesting tweets (in bounding box of specified region)
-    for item in api.request("search/tweets", {"q": query, "count": 100}):
+    # requesting tweets (in melbourne)
+    for item in api.request("search/tweets", {"q": query, 
+                                              "count": 100, 
+                                              "lang": "en", 
+                                              "geocode": "-37.8390435045,145.106023031,201km"}):
         if "text" in item:
             print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
             # save tweet to database
