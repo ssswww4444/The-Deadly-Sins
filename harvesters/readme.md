@@ -17,7 +17,7 @@ Use pip3 install:
     * m: Month of tweets
 * Temp file directory: `/mnt/twitter`
 
-2. From Twitter API
+2. From Twitter Stream and Timeline API
 ```bash
     python3 tweet_mining.py -db "db_name" -re "Victoria"
 ```
@@ -26,3 +26,12 @@ Use pip3 install:
     * re: Region to harvest (Australia/Victoria)
 * StreamAPI: harvest real-time tweets
 * User_timeline: harvest tweets from timelines
+
+3. From Twitter Search API
+```bash
+    python3 tweet_search.py -db "db_name" -q "pizza"
+```
+* Arguments: 
+    * db: Name of database to store
+    * q: Query
+* Region: Melbourne
