@@ -18,6 +18,13 @@ auth["API_SECRET"] = "gMkhRWPnnwcUpNhg2QqsADuLC4PR66opqlX1J6srpfBONunR7X"
 auth["ACCESS_TOKEN"] = "1107074333698981889-bzffZA2f5djoFeV30veP1oHBLNXeab"
 auth["ACCESS_TOKEN_SECRET"] = "CMckhw2NaULIqKnp5DcIqcwJaE1nAyfT2SMqzbnxllGoY"
 
+# # Twitter API authentication credentials (backup)
+# auth = {}
+# auth["API_KEY"] = "lmi60axPXTB1XZc7Us7o3PKWE"
+# auth["API_SECRET"] = "gMkhRWPnnwcUpNhg2QqsADuLC4PR66opqlX1J6srpfBONunR7X"
+# auth["ACCESS_TOKEN"] = "1107074333698981889-bzffZA2f5djoFeV30veP1oHBLNXeab"
+# auth["ACCESS_TOKEN_SECRET"] = "CMckhw2NaULIqKnp5DcIqcwJaE1nAyfT2SMqzbnxllGoY"
+
 with open(JSON_PATH + "twitterAPI_auth.json", "w") as f:
     json.dump(auth, f)
 
