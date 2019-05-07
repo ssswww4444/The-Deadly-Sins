@@ -8,9 +8,9 @@ import threading
 # json files
 JSON_PATH = "json_files/"
 FILE_DICT = {
-    "db_auth": "db_auth.json"
-    "twitter_api": "twitterAPI_auth.json"
-    "bounding": "bounding_box.json"
+    "db_auth": "db_auth.json",
+    "twitter_api": "twitterAPI_auth.json",
+    "bounding": "bounding_box.json",
 }
 uid_ls = []
 
@@ -52,7 +52,7 @@ def twitter_user_timeline(api, storage):
         # requesting timeline
         uid = uid_ls.pop(0)
 
-        for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200):
+        for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
             if "text" in item:
                 print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
                 # save tweet to database
