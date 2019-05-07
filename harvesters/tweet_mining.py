@@ -60,6 +60,7 @@ def twitter_user_timeline(api, storage):
             elif 'message' in item:
                 print('ERROR %s: %s\n' % (item['code'], item['message']))
 
+
 def twitter_streaming(api, storage, bounding, region):
     """ Real-time twitter streaming """
     # requesting tweets (in bounding box of specified region)
