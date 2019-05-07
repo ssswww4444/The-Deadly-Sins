@@ -1,5 +1,11 @@
 # Harvesters
 
+## Requirements
+Use pip3 install:
+1. TwitterAPI
+2. couchdb
+
+
 ## Usage
 1. From a Remote Database
 ```bash
