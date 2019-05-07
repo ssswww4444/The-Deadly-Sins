@@ -17,7 +17,6 @@ class TweetStore(object):
     
     def _create_views(self):
         """ create 2 views for the database """
-
         # view 1: return total count of tweets
         count_map = "function(doc) { emit(doc.id,1); }"
         count_reduce = "function(keys, values) { return sum(values); }"
@@ -38,10 +37,14 @@ class TweetStore(object):
     def save_tweet(self, tweet):
         """ save tweet returned by twitter with tweet id as doc_id """
         tweet["_id"] = tweet["id_str"]
-        # save new tweet document
+        if "_rev" in tweet:
+            tweet.pop("_rev")
         try:
-            self.db.save(tweet)
+            # save new tweet with coordinates
+            if tweet["coordinates"]:
+                self.db.save(tweet)
         except:
+            # duplication
             pass
 
     def count_tweets(self):
