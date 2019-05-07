@@ -19,9 +19,10 @@ Use pip3 install:
 
 2. From Twitter API
 ```bash
-    python3 tweet_mining.py -db "db_name"
+    python3 tweet_mining.py -db "db_name" -re "Victoria"
 ```
 * Arguments: 
     * db: Name of database to store
-* StreamAPI: retrieve real-time tweets
-* User_timeline: retrieve tweets from timelines
+    * re: Region to harvest (Australia/Victoria)
+* StreamAPI: harvest real-time tweets
+* User_timeline: harvest tweets from timelines
