@@ -39,4 +39,44 @@
   <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>    
   <description>The FileSystem for hdfs: uris.</description> 
   </property>
+
+  <property>
+  <name>hadoop.http.filter.initializers</name>
+
+  <value>org.apache.hadoop.security.HttpCrossOriginFilterInitializer</value>
+  </property>
+
+  <property>
+  <name>hadoop.http.cross-origin.enabled</name>
+  <value>true</value>
+  </property>
+
+    <property>
+  <name>hadoop.http.cross-origin.allowed-origins</name>
+  <value>*</value>
+  </property>
+
+    <property>
+  <name>hadoop.http.cross-origin.allowed-methods</name>
+  <value>GET,POST,HEAD,DELETE,OPTIONS</value>
+  </property>
+
+    <property>
+  <name>hadoop.http.cross-origin.allowed-headers</name>
+  <value>X-Requested-With,Content-Type,Accept,Origin,WWW-Authenticate,Accept-Encoding,Transfer-Encoding</value>
+  </property>
+
+    <property>
+  <name>hadoop.http.cross-origin.max-age</name>
+  <value>1800</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.root.hosts</name>
+    <value>*</value>
+  </property>
+  <property>
+    <name>hadoop.proxyuser.root.groups</name>
+    <value>*</value>
+  </property>
+
 </configuration>
