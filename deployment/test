@@ -1,0 +1,6 @@
+hadoop.slave.2  hadoopslave2 
+hadoop.master  hadoopmaster 
+hadoop.slave.1  hadoopslave1 
+hadoop.slave.3  hadoopslave3 
+
+sudo docker exec -it   $(sudo docker ps | grep hadoop_ | awk '{print $1}')  bin/bash -c "/bin/bash"
