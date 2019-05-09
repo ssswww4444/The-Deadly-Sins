@@ -18,6 +18,14 @@
 
 # Default server configuration
 #
+upstream database_hosts {
+	ip_hash;
+    server slave-instance-1:5984;
+    server slave-instance-2:5984;
+    server slave-instance-3:5984;
+}
+
+
 server {
 	listen 8080;
 
@@ -68,6 +76,21 @@ server {
 	#	deny all;
 	#}
 }
+
+server {
+	listen 5984;
+	
+	server_name db;
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		proxy_pass http://database_hosts;
+	}
+
+
+}
+
 
 # Virtual Host configuration for example.com
 #
