@@ -33,7 +33,7 @@ def read_jsons():
 
     # Twitter authentication credentials
     with open(JSON_PATH + FILE_DICT["twitter_api"], "r") as f:
-        api_auth = json.load(f)
+        api_auth = json.load(f)["keys"][0]
 
     return db_auth, api_auth
 
