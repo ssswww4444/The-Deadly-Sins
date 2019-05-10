@@ -48,21 +48,25 @@ def main():
 
     db = storage.get_db()
 
-    for doc_id in db:
+    try:
+        for doc_id in db:
 
-        # more than one process working
-        if (args.num_process > 1):
-            if (int(doc_id) % args.num_process) != args.id:
-                # not the job of this process
-                continue
-                
-        doc = db[doc_id]
-        if "senpy" not in doc.keys():
-            res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
-                                params={"input": doc["text"]})
-            doc["senpy"] = json.loads(res.text)
-            db[doc_id] = doc
-            print("UPDATE DOC ", doc["_id"])
+            # more than one process working
+            if (args.num_process > 1):
+                if (int(doc_id) % args.num_process) != args.id:
+                    # not the job of this process
+                    continue
+                    
+            doc = db[doc_id]
+            if "senpy" not in doc.keys():
+                res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
+                                    params={"input": doc["text"]})
+                doc["senpy"] = json.loads(res.text)
+                db[doc_id] = doc
+                print("UPDATE DOC ", doc["_id"])
+    except:
+        # done
+        pass
 
 if __name__ == "__main__":
     main()
