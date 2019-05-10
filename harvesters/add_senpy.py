@@ -12,9 +12,16 @@ FILE_DICT = {
 def get_args():
     """ Obtaining args from terminal """
     parser = argparse.ArgumentParser(description="Add senpy to all docs in the db")
-    # filenames
+
     parser.add_argument("-db", "--db_name", type = str, required = True, 
                         help = "Name of Database for storing")
+
+    parser.add_argument("-na", "--num_process", type = int, required = True, 
+                        help = "Number of processes adding senpy to this db")
+
+    parser.add_argument("-id", "--id", type = int, required = True, 
+                        help = "Current process id / number, should start from 0")
+
     args = parser.parse_args()
     
     return args
@@ -42,6 +49,13 @@ def main():
     db = storage.get_db()
 
     for doc_id in db:
+
+        # more than one process working
+        if (args.num_process > 1):
+            if (int(doc_id) % args.num_process) != args.id:
+                # not the job of this process
+                continue
+                
         doc = db[doc_id]
         if "senpy" not in doc.keys():
             res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
