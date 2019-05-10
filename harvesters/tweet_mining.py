@@ -52,27 +52,33 @@ def twitter_user_timeline(api, storage):
         # requesting timeline
         uid = uid_ls.pop(0)
 
-        for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
-            if "text" in item:
-                print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
-                # save tweet to database
-                storage.save_tweet(item)
-            elif 'message' in item:
-                print('ERROR %s: %s\n' % (item['code'], item['message']))
+        try:
+            for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
+                if "text" in item:
+                    # print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # save tweet to database
+                    storage.save_tweet(item)
+                elif 'message' in item:
+                    print('ERROR %s: %s\n' % (item['code'], item['message']))
+        except:
+            pass
 
 def twitter_streaming(api, storage, bounding, region):
     """ Real-time twitter streaming """
     # requesting tweets (in bounding box of specified region)
-    for item in api.request("statuses/filter", {"locations": bounding[region]}):
-        if "text" in item:
-            print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
-            # save tweet to database
-            storage.save_tweet(item)
-            # only get timeline for user tweeted with coordinates
-            if item["coordinates"]:
-                uid_ls.append(item["user"]["id"])
-        elif 'message' in item:
-            print('ERROR %s: %s\n' % (item['code'], item['message']))
+    while True:
+        try:
+            for item in api.request("statuses/filter", {"locations": bounding[region]}):
+                if "text" in item:
+                    # print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # save tweet to database
+                    storage.save_tweet(item)
+                    # only get timeline for user tweeted with coordinates
+                    uid_ls.append(item["user"]["id"])
+                elif 'message' in item:
+                    print('ERROR %s: %s\n' % (item['code'], item['message']))
+        except:
+            pass
 
 def main():
 
