@@ -1,3 +1,5 @@
+#----------------------------------Unsafe-----------------------------#
+
 - name: Collect facts
   hosts: localhost
   tasks:
@@ -30,19 +32,19 @@
   become_method: sudo
 
   tasks:
-    # - file:
-    #     path: "{{item}}"
-    #     state: absent
-    #     mode: 0755
-    #   with_items:
-    #     - "{{dirs}}"
+    - file:
+        path: "{{item}}"
+        state: absent
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
 
-    # - file:
-    #     path: "{{item}}"
-    #     state: directory
-    #     mode: 0755
-    #   with_items:
-    #     - "{{dirs}}"
+    - file:
+        path: "{{item}}"
+        state: directory
+        mode: 0755
+      with_items:
+        - "{{dirs}}"
 
     - name: Sending compose file
       copy:
@@ -93,6 +95,12 @@
         path: /home/ubuntu/spark
         state: directory
         mode: 0755
+    - name: Sending spark config
+      copy:
+        src: "{{playbook_dir}}/etc/spark/spark-defaults.conf"
+        dest: "/etc/spark-conf/"
+        mode: '666'
+        directory_mode: no
 
 
     

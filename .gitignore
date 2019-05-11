@@ -3,3 +3,4 @@
 *.retry
 *workspace*
 *.idea*
+*vscode*

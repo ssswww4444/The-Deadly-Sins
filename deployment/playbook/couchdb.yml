@@ -1,3 +1,6 @@
+# This playbook is used to deploy couchdb services on instances. The cluster is 
+# not set up in this stage.
+
 - name: Collect facts
   hosts: localhost
   tasks:
@@ -10,9 +13,6 @@
           project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
         server: 
       register: facts
-
-    
-
 
 - name: Deploy Coachdb
   become: yes

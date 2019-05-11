@@ -209,14 +209,18 @@ class CouchAgent:
 if __name__ == "__main__":
     resp = {}
     config_file = 'N/A'
+    print("Please give username and password for the dbs(Default to be unified: )")
+    username = input("Remote username")
+    password = getpass.getpass("Remote password")
     # master = '45.113.233.243'
     slave1 = '45.113.233.243'
     slave2 = '45.113.235.196'
     slave3 = '45.113.233.232'
+
     # agent = CouchAgent(master, name='master', username='admin', password='123qweasd')
-    slave_agent_1 = CouchAgent(slave1, name='slave1', username='admin', password='123qweasd')
-    slave_agent_2 = CouchAgent(slave2, name='slave2', username='admin', password='123qweasd')
-    slave_agent_3 = CouchAgent(slave3, name='slave3', username='admin', password='123qweasd')
+    slave_agent_1 = CouchAgent(slave1, name='slave1', username=username, password=password)
+    slave_agent_2 = CouchAgent(slave2, name='slave2', username=username, password=password)
+    slave_agent_3 = CouchAgent(slave3, name='slave3', username=username, password=password)
 
     # agent.init_db()
     #slave_agent_1.init_db()
