@@ -99,12 +99,68 @@
         </p>
 
         <!-- Map -->
+        <p class="h1">Map</p><br/>
         <div id="mapid1"></div> <br/><br/>
+        <br/><br/>
+
+        <p class="h1">Pie Chart</p>
 
          <!-- Chart -->
-        <canvas id="myChart" width="400" height="200"></canvas> <br/><br/>
+         <div class="btn-group">
+                <button id = "table-button1" class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                    Melbourne
+                </button>
+                <div id = "table-select1" class="dropdown-menu">
+                    <a class="dropdown-item" >Melbourne</a>
+                    <a class="dropdown-item" >North Melbourne</a>
+                    <a class="dropdown-item" >Richmond</a>
+                    <a class="dropdown-item" >South Melbourne</a>
+                </div>
+        </div>
+        <div id="pieChartContent1">
+            <canvas id="pie-chart" width="400" height="200"></canvas> <br/><br/>
+        </div>
+        <br/><br/>
+        
+        <p class="h1">Word Cloud</p>
+        <img src="./assets/wordcloud.svg" alt="word_cloud" class="center"> <br/><br/>
 
-        <canvas id="pie-chart" width="400" height="200"></canvas> <br/><br/>
+        <p class="h1">Scatter Chart</p>
+            <canvas id="myChart" width="400" height="200"></canvas> <br/><br/>
+        <br/><br/>
+
+        <p class="h1">Prediction</p><br/>
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 1</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id="wrath-factor1" class="form-control" placeholder="Factor 1">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 2</label>
+                <div class="col-sm-10">
+                <div class="wrap">
+                    <input id="wrath-factor2" class="form-control" placeholder="Factor 2">
+                </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Outcome</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id = "wrath-outcome" class="form-control" placeholder="Outcome">
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button id = "wrath-calculate"  type="submit" class="btn btn-primary">Calculate</button>
+                </div>
+            </div>
+        </form><br/><br/><br/><br/>
 
         <h1 id="lust" class="display-4">Lust Story</h1>
         <p class="lead">
@@ -118,11 +174,69 @@
         </p>
 
         <!-- Map -->
+        <p class="h1">Map</p><br/>
         <div id="mapid2"></div> <br/><br/>
+        <br/><br/>
 
+        <p class="h1">Pie Chart</p>
+        <br/</br/>
+
+        <div class="btn-group">
+            <button id = "table-button" class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                Melbourne
+            </button>
+            <div id = "table-select" class="dropdown-menu">
+                <a class="dropdown-item" >Melbourne</a>
+                <a class="dropdown-item" >North Melbourne</a>
+                <a class="dropdown-item" >Richmond</a>
+                <a class="dropdown-item" >South Melbourne</a>
+            </div>
+        </div>
+       
+        <div id="pieChartContent">
+            <canvas id="doughnut-chart" width="400" height="200"></canvas> <br/><br/>
+        </div>
+        <br/><br/>
+
+        <p class="h1">Word Cloud</p>
+        <img src="./assets/wordcloud.svg" alt="word_cloud" class="center"> <br/><br/>
+
+        <p class="h1">Scatter Chart</p>
         <canvas id="myChart2" width="400" height="200"></canvas> <br/><br/>
+        <br/><br/>
 
-        <canvas id="doughnut-chart" width="400" height="200"></canvas> <br/><br/>
+        <p class="h1">Prediction</p><br/>
+        <form>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 1</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id="factor1" class="form-control" placeholder="Factor 1">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 2</label>
+                <div class="col-sm-10">
+                <div class="wrap">
+                    <input id="factor2" class="form-control" placeholder="Factor 2">
+                </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Outcome</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id = "outcome" class="form-control" placeholder="Outcome">
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button id = "calculate"  type="submit" class="btn btn-primary">Calculate</button>
+                </div>
+            </div>
+        </form><br/><br/><br/><br/>
 
         <h1 id="team" class="display-4">Team member</h1>
         <p class="lead" id= "member">
