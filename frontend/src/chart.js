@@ -26,14 +26,23 @@ Object.keys(chartData1.responseJSON).forEach(function(k){
     console.log(k + ' - ' + chartData1.responseJSON[k]);
 });
 console.log(chartData1.responseJSON["Melbourne"]);
+
 melbourne_data1 = Object.values(chartData1.responseJSON["Melbourne"]).slice(1);
 dockland_data1 = Object.values(chartData1.responseJSON["Docklands"]).slice(1);
 southbank_data1 = Object.values(chartData1.responseJSON["Southbank"]).slice(1);
 eastmelbourne_data1 = Object.values(chartData1.responseJSON["East Melbourne"]).slice(1);
 kensington_data1 = Object.values(chartData1.responseJSON["Kensington"]).slice(1);
-
 labels1 = Object.keys(chartData1.responseJSON["Melbourne"]).slice(1);
 
+//
+//
+//
+//
+// pie chart for wrath story
+//
+//
+//
+// 
 var ctx3 = document.getElementById('pie-chart').getContext('2d');
 var myPieChart = new Chart(ctx3, {
     type: 'pie',
@@ -195,7 +204,16 @@ $("#table-select1 a").click(function(e){
 
 });
 
-// chart part for wrath story
+//
+//
+//
+//
+// scatter part for wrath story
+//
+//
+//
+// 
+
 var ctx = document.getElementById('myChart').getContext('2d');
 var dataset1x, dataset1y,dataset2x,dataset2y;
 
@@ -206,20 +224,8 @@ var scatterChartData1 = {
     datasets: [{
         label: 'My First dataset',
         borderColor: '#3e95cd',
-        backgroundColor: '#3e95cd',
+        backgroundColor: '#ff0000',
         data: data1
-        
-    }, {
-        label: 'My Second dataset',
-        borderColor:  "#8e5ea2",
-        backgroundColor: "#8e5ea2",
-        data: [{
-            x: 12,
-            y: 15
-        }, {
-            x: 13,
-            y: 12
-        }]
     }]
 };
 
@@ -229,12 +235,102 @@ var scatterChartData1 = {
         options: {
             title: {
                 display: true,
-                text: 'Wrath Scatter Chart'
+                text: 'Feature1 Scatter Chart'
             },
         }
     });
 
-// chart part for lust story
+$("#scatter-select1 a").click(function(e){
+    e.preventDefault(); // cancel the link behaviour
+    var selText = $(this).text();
+    console.log(selText)
+
+    if (selText === "Feature1"){
+
+        var scatterContent1 = document.getElementById('scatterContent1');
+        scatterContent1.innerHTML = '&nbsp;';
+        $('#scatterContent1').append(' <canvas id="myChart" width="400" height="200"><canvas>');
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var scatterChart = new Chart(ctx, {
+            type: 'scatter',
+            data: scatterChartData1,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Feature1 Scatter Chart'
+                },
+            }
+        });
+    }
+
+        if (selText === "Feature2"){
+            var scatterContent1 = document.getElementById('scatterContent1');
+            scatterContent1.innerHTML = '&nbsp;';
+            $('#scatterContent1').append(' <canvas id="myChart" width="400" height="200"><canvas>');
+            var ctx = document.getElementById('myChart').getContext('2d');
+    
+            var scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature2 Scatter Chart'
+                    },
+                }
+            });
+        }
+
+        if (selText === "Feature3"){
+
+            var scatterContent1 = document.getElementById('scatterContent1');
+            scatterContent1.innerHTML = '&nbsp;';
+            $('#scatterContent1').append(' <canvas id="myChart" width="400" height="200"><canvas>');
+            var ctx = document.getElementById('myChart').getContext('2d');
+    
+            var scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature3 Scatter Chart'
+                    },
+                }
+            });
+        }
+
+        if (selText === "Feature4"){
+            var scatterContent1 = document.getElementById('scatterContent1');
+            scatterContent1.innerHTML = '&nbsp;';
+            $('#scatterContent1').append(' <canvas id="myChart" width="400" height="200"><canvas>');
+            var ctx = document.getElementById('myChart').getContext('2d');
+    
+            var scatterChart = new Chart(ctx, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature4 Scatter Chart'
+                    },
+                }
+            });
+        }
+    $("#scatter-button1").text(selText);
+});
+
+
+//
+//
+//
+//
+// pie chart for lust story
+//
+//
+//
+// 
 var ctx4 = document.getElementById('doughnut-chart').getContext('2d');
 var myDoughnutChart = new Chart(ctx4, {
     type: 'pie',
@@ -254,7 +350,6 @@ var myDoughnutChart = new Chart(ctx4, {
         }
     }
 });
-
 
 $("#table-select a").click(function(e){
     e.preventDefault(); // cancel the link behaviour
@@ -370,43 +465,22 @@ $("#table-select a").click(function(e){
     $("#table-button").text(selText);
 });
 
-var ctx2 = document.getElementById('myChart2').getContext('2d');
+//
+//
+//
+//
+// scatter chart for lust story
+//
+//
+//
+// 
 
-var scatterChartData = {
-    datasets: [{
-        label: 'My First dataset',
-        borderColor: '#3e95cd',
-        backgroundColor: '#3e95cd',
-        data: [{
-            x: 10,
-            y: 20
-        }, {
-            x: 15,
-            y: 10
-        },
-        {
-            x: 11.5,
-            y: 12.3
-        }]
-        
-    }, {
-        label: 'My Second dataset',
-        borderColor:  "#8e5ea2",
-        backgroundColor: "#8e5ea2",
-        data: [{
-            x: 12,
-            y: 15
-        }, {
-            x: 13,
-            y: 12
-        }]
-    }]
-};
+var ctx2 = document.getElementById('myChart2').getContext('2d');
 
 
  var scatterChart2 = new Chart(ctx2, {
         type: 'scatter',
-        data: scatterChartData,
+        data: scatterChartData1,
         options: {
             title: {
                 display: true,
@@ -414,6 +488,88 @@ var scatterChartData = {
             },
         }
     });
+
+$("#scatter-select2 a").click(function(e){
+    e.preventDefault(); // cancel the link behaviour
+    var selText = $(this).text();
+    console.log(selText)
+
+    if (selText === "Feature1"){
+
+        var scatterContent2 = document.getElementById('scatterContent2');
+        scatterContent2.innerHTML = '&nbsp;';
+        $('#scatterContent2').append(' <canvas id="myChart2" width="400" height="200"><canvas>');
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+
+        var scatterChart2 = new Chart(ctx2, {
+            type: 'scatter',
+            data: scatterChartData1,
+            options: {
+                title: {
+                    display: true,
+                    text: 'Feature1 Scatter Chart'
+                },
+            }
+        });
+    }
+
+        if (selText === "Feature2"){
+            var scatterContent2 = document.getElementById('scatterContent2');
+            scatterContent2.innerHTML = '&nbsp;';
+            $('#scatterContent2').append(' <canvas id="myChart2" width="400" height="200"><canvas>');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+    
+            var scatterChart2 = new Chart(ctx2, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature2 Scatter Chart'
+                    },
+                }
+            });
+        }
+
+        if (selText === "Feature3"){
+
+            var scatterContent2 = document.getElementById('scatterContent2');
+            scatterContent2.innerHTML = '&nbsp;';
+            $('#scatterContent2').append(' <canvas id="myChart2" width="400" height="200"><canvas>');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+    
+            var scatterChart2 = new Chart(ctx2, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature3 Scatter Chart'
+                    },
+                }
+            });
+        }
+
+        if (selText === "Feature4"){
+            var scatterContent2 = document.getElementById('scatterContent2');
+            scatterContent2.innerHTML = '&nbsp;';
+            $('#scatterContent2').append(' <canvas id="myChart2" width="400" height="200"><canvas>');
+            var ctx2 = document.getElementById('myChart2').getContext('2d');
+    
+            var scatterChart2 = new Chart(ctx2, {
+                type: 'scatter',
+                data: scatterChartData1,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Feature4 Scatter Chart'
+                    },
+                }
+            });
+        }
+    $("#scatter-button2").text(selText);
+});
+
 
 $("#wrath-calculate").click(function(e){
     e.preventDefault(); // cancel the link behaviour
