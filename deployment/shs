@@ -1,3 +1,3 @@
-ansible-playbook playbook/docker-swarm.yml -i playbook/library/dynamic_inventory/openstack_inventory.py -e "ansible_ssh_user=ubuntu"
+ansible-playbook playbook/env.yml -i playbook/library/dynamic_inventory/openstack_inventory.py -e "ansible_ssh_user=ubuntu"
 
-sudo docker exec -it   $(sudo docker ps | grep hadoop_ | awk '{print $1}')  bin/bash -c "/bin/bash"
+sudo docker exec -it   $(sudo docker ps | grep spark | awk '{print $1}')  /bin/bash

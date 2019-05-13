@@ -98,7 +98,14 @@
     - name: Sending spark config
       copy:
         src: "{{playbook_dir}}/etc/spark/spark-defaults.conf"
-        dest: "/etc/spark-conf/"
+        dest: "/etc/spark_conf/"
+        mode: '666'
+        directory_mode: no
+
+    - name: Sending spark dependencies
+      copy:
+        src: "{{playbook_dir}}/etc/spark/requirements.txt"
+        dest: "/etc/spark_conf/"
         mode: '666'
         directory_mode: no
 

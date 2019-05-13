@@ -40,3 +40,13 @@
         state: directory
         mode: 0777
         recurse: yes
+- name: Deploy Font-end
+  become: yes
+  become_method: sudo
+  hosts:
+    - master-instance
+
+  tasks:
+
+    - command: docker stack deploy -c frontend/docker-compose.yml frontend
+    

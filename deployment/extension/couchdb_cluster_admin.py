@@ -34,7 +34,6 @@ class CouchAgent:
             'http://{2}:{3}@{0}:{1}/database'.format(self.host, self.port, username, password)
         )
         print("[Setting up]: Creating user database...")
-        print(resp.content)
         requests.put(
             'http://{2}:{3}@{0}:{1}/_users'.format(self.host, self.port, username, password)
         )
@@ -64,7 +63,6 @@ class CouchAgent:
             },
             headers = self.headers
         )
-        print(resp.content)
         return resp
 
     def disable_cluster(self):
@@ -84,7 +82,6 @@ class CouchAgent:
             },
             headers = self.headers
         )
-        print(resp.content)
         return resp
 
     def uuid_setup(self):
@@ -143,7 +140,6 @@ class CouchAgent:
             headers=self.headers
 
         )
-        print(resp.content)
         return resp
 
     def join_node(self, remote_host, remote_port=5984):
@@ -170,7 +166,6 @@ class CouchAgent:
             },
             headers=self.headers
         )
-        print(resp.content)
         return resp
 
     def finalize_cluster(self):
