@@ -56,13 +56,14 @@ def twitter_user_timeline(apis, storage):
         try:
             for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
                 if "text" in item:
-                    print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
                     # save tweet to database
                     storage.save_tweet(item)
                 elif 'message' in item:
                     print('ERROR %s: %s\n' % (item['code'], item['message']))
         except:
             # exceed limit: switch to next api
+            print("EXCEED LIMIT: SWITCH TO NEXT API")
             i += 1
             if i == len(apis):
                 i = 0
@@ -89,7 +90,7 @@ def main():
 
     # initialise db and twitter api
     from_db = TweetStore(args.from_db, url).get_db()
-    to_storage = TweetStore(args.to_db, url).get_db()
+    to_storage = TweetStore(args.to_db, url)
 
     # one for streaming
     apis = []
