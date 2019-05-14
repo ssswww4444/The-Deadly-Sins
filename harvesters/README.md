@@ -1,11 +1,30 @@
 # Harvesters
-maintainer:
-- Peiyun Sun \<peiyuns@student.unimelb.edu.au\>
+Maintainer:
+- Pei-Yun Sun \<peiyuns@student.unimelb.edu.au\>
+
 ## Requirements
 Use pip3 install:
 1. TwitterAPI
 2. couchdb
 
+## File structure
+```
+Harvesting/
+├── bash_files
+│   ├── curl_by_date.sh      -> RESTful API to get tweets by date
+│   └── curl_by_loc.sh       -> RESTful API to get tweets by location
+├── json_files
+│   ├── twitterAPI_auth.json -> Twitter API authentication credentials
+│   ├── db_auth.json         -> CouchDB authentication
+│   ├── bounding_box.json    -> Bounding box of Victoria and Australia
+│   └── json_generator.py    -> Program for generating json files
+│── add_senpy.py             -> Add senpy results to documents in a DB
+│── curl_save.py             -> Use RESTful API to get tweets from remote DB and save
+│── tweet_search.py          -> Tweet searching in Melbourne
+│── db.py                    -> Connect to CouchDB
+│── tweet_mining.py          -> Tweet streaming and getting user timeline
+└── README.md                -> Readme
+```
 
 ## Usage
 1. From a Remote Database

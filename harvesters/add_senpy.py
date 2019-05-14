@@ -1,6 +1,7 @@
 import json
 import argparse
 from db import TweetStore
+import requests
 
 # json files
 JSON_PATH = "json_files/"
@@ -14,6 +15,12 @@ def get_args():
 
     parser.add_argument("-db", "--db_name", type = str, required = True, 
                         help = "Name of Database for storing")
+
+    parser.add_argument("-na", "--num_process", type = int, required = True, 
+                        help = "Number of processes adding senpy to this db")
+
+    parser.add_argument("-id", "--id", type = int, required = True, 
+                        help = "Current process id / number, should start from 0")
 
     args = parser.parse_args()
     
@@ -43,16 +50,18 @@ def main():
 
     try:
         for doc_id in db:
+
+            # more than one process working
+            if (args.num_process > 1):
+                if (int(doc_id) % args.num_process) != args.id:
+                    # not the job of this process
+                    continue
                     
             doc = db[doc_id]
-            if "emotion" not in doc.keys():
-                dicts = doc["senpy"]["entries"][0]["onyx:hasEmotionSet"][0]["onyx:hasEmotion"]
-                doc["emotion_score"] = 0
-                for emotion_dict in dicts:
-                    if emotion_dict["onyx:hasEmotionIntensity"] > doc["emotion_score"]:
-                        doc["emotion"] = emotion_dict["onyx:hasEmotionCategory"]
-                        doc["emotion_score"] = emotion_dict["onyx:hasEmotionIntensity"]
-
+            if "senpy" not in doc.keys() or doc["senpy"] == None:
+                res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
+                                    params={"input": doc["text"]})
+                doc["senpy"] = json.loads(res.text)
                 db[doc_id] = doc
                 print("UPDATE DOC ", doc["_id"])
     except:
