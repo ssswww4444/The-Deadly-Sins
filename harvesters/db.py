@@ -17,7 +17,7 @@ class TweetStore(object):
         except couchdb.http.PreconditionFailed:
             # existing db
             self.db = self.server[dbname]
-    
+
     def _create_views(self):
         """ create 2 default views for the database """
         # view 1: return total count of tweets
@@ -27,7 +27,7 @@ class TweetStore(object):
                                      "count_tweets",  # view name
                                      count_map,       # map
                                      reduce_fun=count_reduce)
-        
+
         view.sync(self.db)
 
         # view 2: return all stored tweet documents
@@ -41,7 +41,7 @@ class TweetStore(object):
         return TextBlob(tweet_text).sentiment
 
     def _emotion(self, tweet_text):
-        res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
+        res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood',
                             params={"input": tweet_text})
         return json.loads(res.text)
 
@@ -56,21 +56,18 @@ class TweetStore(object):
             tweet["_id"] = tid
 
             if tid in self.db:
+                # updating
                 doc = self.db[tid]
-
-                # emotion
                 if "senpy" not in doc.keys() or doc["senpy"] == None:
                     # update with senpy
                     doc["senpy"] = self._emotion(doc["text"])
-
-                # sentiment
                 if "textblob" not in doc.keys() or doc["textblob"] == None:
-                    # update with senpy
+                    # update with textblob
                     doc["textblob"] = self._sentiment(doc["text"])
-                    
                 self.db[tid] = doc
                 print("UPDATE DOC ", tid)
             else:
+                # new doc
                 if "_rev" in tweet:
                     # rev from other db
                     tweet.pop("_rev")
@@ -88,7 +85,7 @@ class TweetStore(object):
         """ method for returning view 1 """
         for doc in self.db.view("twitter/count_tweets"):
             return doc.values
-    
+
     def get_tweets(self):
         """ method for returning view 2 """
         return self.db.view("twitter/get_tweets")

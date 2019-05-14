@@ -54,7 +54,7 @@ with open("twitterAPI_auth.json", "w") as f:
 db_auth = {}
 db_auth["ip"] = "45.113.233.232"
 db_auth["port"] = "5984"
-db_auth["user"] = "admin" 
+db_auth["user"] = "admin"
 db_auth["pwd"] = "123qweasd"
 with open("db_auth.json", "w") as f:
     json.dump(db_auth, f)

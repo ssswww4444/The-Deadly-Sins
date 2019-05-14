@@ -1,0 +1,9 @@
+shapely
+couchdb
+requests
+nltk
+numpy
+pandas
+pillow
+wordcloud
+matplotlib

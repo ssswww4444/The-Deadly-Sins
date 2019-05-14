@@ -87,7 +87,7 @@
 
 <property>
   <name>yarn.nodemanager.resource.memory-mb</name>
-  <value>2048</value>
+  <value>7000</value>
 </property>
 
 <property>
@@ -97,22 +97,40 @@
 
 <property>
   <name>yarn.scheduler.maximum-allocation-mb</name>
-  <value>4096</value>
+  <value>7000</value>
 </property>
 
 <property>
   <name>mapreduce.map.memory.mb</name>
-  <value>2048</value>
+  <value>1000</value>
 </property>
 
 <property>
   <name>mapreduce.reduce.memory.mb</name>
-  <value>2048</value>
+  <value>2000</value>
 </property>
 
 <property>
   <name>mapreduce.nodemanager.resource.cpu-vcores</name>
-  <value>1</value>
+  <value>2</value>
+</property>
+<property>
+  <name>yarn.nodemanager.webapp.cross-origin.enabled	</name>
+  <value>true</value>
 </property>
 
+<property>
+  <name>yarn.resourcemanager.webapp.cross-origin.enabled	</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>yarn.timeline-service.http-cross-origin.enabled	</name>
+  <value>true</value>
+</property>
+
+<property>
+<name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
+<value>0.5</value>
+</property>
 </configuration>

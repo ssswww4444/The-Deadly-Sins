@@ -1,3 +1,5 @@
+#----------------------------------Unsafe-----------------------------#
+
 - name: Collect facts
   hosts: localhost
   tasks:
@@ -80,5 +82,32 @@
         dest: "/etc/ssh/sshd_config_hadoop"
         mode: '666'
         directory_mode: no
+
+    - file:
+        path: /mnt/data
+        state: directory
+        mode: 0755
+    - file:
+        path: /etc/spark_conf
+        state: directory
+        mode: 0755
+    - file:
+        path: /home/ubuntu/spark
+        state: directory
+        mode: 0755
+    - name: Sending spark config
+      copy:
+        src: "{{playbook_dir}}/etc/spark/spark-defaults.conf"
+        dest: "/etc/spark_conf/"
+        mode: '666'
+        directory_mode: no
+
+    - name: Sending spark dependencies
+      copy:
+        src: "{{playbook_dir}}/etc/spark/requirements.txt"
+        dest: "/etc/spark_conf/"
+        mode: '666'
+        directory_mode: no
+
 
     
