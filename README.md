@@ -9,6 +9,7 @@ Clusters and Cloud Computing Assignment 2
 ├── deployment
 ├── frontend
 ├── harvesters
+├── spark
 ├── README.md
 └── utils
 ```
