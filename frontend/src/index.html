@@ -32,9 +32,11 @@
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#wrath">Wrath Story</a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#team">Team</a>
                 </li>
@@ -48,7 +50,7 @@
         <div class="carousel-inner" role="listbox">
             <!-- Slide --->
             <div class="carousel-item active">
-                <img src="./assets/pic_shadow.jpg" class="d-block w-100" alt="police">
+                <img src="./assets/wrath2.jpg" class="d-block w-100" alt="police">
                 <div class="carousel-caption d-none d-md-block">
                     <h2 class="display-4">Wrath</h2>
                     <p class="lead">This is a story about wrath.</p>
@@ -72,11 +74,23 @@
         </p>
 
         <!-- Map -->
-        <p class="h1">Map</p><br/>
-        <div id="mapid1"></div> <br/><br/>
+        <p id = "map" class="h1">Map</p>
+        <div class="btn-group">
+                <button id = "map-button" class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
+                    Wrath rate
+                </button>
+                <div id = "map-select" class="dropdown-menu">
+                    <a class="dropdown-item" >Wrath rate</a>
+                    <a class="dropdown-item" >Polarity</a>
+                </div>
+        </div>
+        <br/><br/> <br/><br/>
+        <div id="mapContent">
+            <div id="mapid1"></div> <br/><br/>
+        </div>
         <br/><br/>
 
-        <p class="h1">Pie Chart</p>
+        <p id ="pie" class="h1">Pie Chart</p>
 
          <!-- Chart -->
          <div class="btn-group">
@@ -95,29 +109,151 @@
         <div id="pieChartContent1">
             <canvas id="pie-chart" width="400" height="200"></canvas> <br/><br/>
         </div>
-        <br/><br/>
+        <br/><br/><br/><br/>
+
+        <p id = "bar" class="h1">Bar Chart</p>
+        <canvas id="bar-chart" width="400" height="200"></canvas> <br/><br/><br/><br/>
+
+        <p id="word" class="h1">Word Cloud</p>
+        <br/>
+        <img src="./assets/result.png" alt="word_cloud" class="center" height = "400" > <br/><br/><br/><br/>
         
-        <p class="h1">Word Cloud</p>
-        <img src="./assets/wordcloud.svg" alt="word_cloud" class="center"> <br/><br/>
-        
-        <p class="h1">Scatter Chart</p>
+        <p id = "scatter" class="h1">Scatter Chart</p>
 
         <div class="btn-group">
             <button id = "scatter-button1" class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">
-                Feature1
+                Work Overtime
             </button>
             <div id = "scatter-select1" class="dropdown-menu">
-                <a class="dropdown-item" >Feature1</a>
-                <a class="dropdown-item" >Feature2</a>
-                <a class="dropdown-item" >Feature3</a>
-                <a class="dropdown-item" >Feature4</a>
+                <a class="dropdown-item" >Work Overtime</a>
+                <a class="dropdown-item" >Homeless</a>
+                <a class="dropdown-item" >Unemployment</a>
+                <a class="dropdown-item" >Complete Year 12</a>
+                <a class="dropdown-item" >Death rate</a>
+                <a class="dropdown-item" >Population</a>
+                <a class="dropdown-item" >Median age</a>
+                <a class="dropdown-item" >Income</a>
             </div>
         </div>
+        <br/>
+        <form>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Correlation value</label>
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="correlation" class="form-control" placeholder="Correlation value">
+                        </div>
+                    </div>
+                </div>
+        </form>
 
         <div id="scatterContent1">
-            <canvas id="myChart" width="400" height="200"></canvas> <br/><br/>
+            <canvas id="myChart" width="400" height="200"></canvas>
         </div>
-        <br/><br/><br/><br/>
+        <br/><br/><br/><br/><br/><br/>
+
+        <p id = "prediction" class="h1">Prediction</p><br/>
+        <form>
+        
+        <div id = "predict">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 1</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id="factor1" class="form-control" placeholder="Factor 1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Input factor 2</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id="factor2" class="form-control" placeholder="Factor 2">
+                </div>
+            </div>
+            </div>
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 3</label>
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor3" class="form-control" placeholder="Factor 3">
+                        </div>
+                    </div>
+            </div>
+            
+
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 4</label>
+
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor4" class="form-control" placeholder="Factor 4">
+                        </div>
+                        
+                    </div>
+            </div>
+
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 5</label>
+
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor5" class="form-control" placeholder="Factor 5">
+                        </div>   
+                    </div>
+            </div>
+
+
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 6</label>
+
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor6" class="form-control" placeholder="Factor 6">
+                        </div>   
+                    </div>
+            </div>
+            
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 7</label>
+
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor7" class="form-control" placeholder="Factor 7">
+                        </div>   
+                    </div>
+            </div>
+
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Input factor 8</label>
+
+                    <div class="col-sm-10">
+                        <div class="wrap">
+                            <input id="factor8" class="form-control" placeholder="Factor 8">
+                        </div>   
+                    </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Outcome</label>
+                <div class="col-sm-10">
+                    <div class="wrap">
+                        <input id = "outcome" class="form-control" placeholder="Outcome">
+                    </div> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <button id = "calculate"  type="submit" class="btn btn-primary">Calculate</button>
+                </div>
+            </div>
+
+        </div>
+        </form><br/><br/><br/><br/>
+
 
         <h1 id="team" class="display-4">Team member</h1>
         <p class="lead" id= "member">
