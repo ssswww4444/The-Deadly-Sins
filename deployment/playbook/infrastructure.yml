@@ -1,4 +1,4 @@
-
+#------------------------------------Unsafe-------------------------------#
 
 - name: Keypair
   hosts: localhost
@@ -38,7 +38,7 @@
       with_items:
         - "{{remote_hosts}}"
 
-    - name: create 40G test volume
+    - name: create volumes
       os_volume:
         state: present
         size: "{{item.volume}}"
@@ -47,7 +47,7 @@
       with_items:
         - "{{remote_hosts}}"
 
-    - name: attach a volume to host
+    - name: attach volumes to hosts
       os_server_volume:
         state: present
         server: "{{item.name}}"

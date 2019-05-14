@@ -1,3 +1,6 @@
+# This playbook is used to deploy couchdb services on instances. The cluster is 
+# not set up in this stage.
+
 - name: Collect facts
   hosts: localhost
   tasks:
@@ -10,9 +13,6 @@
           project_name: "{{lookup('env','OS_PROJECT_NAME')}}"
         server: 
       register: facts
-
-    
-
 
 - name: Deploy Coachdb
   become: yes
@@ -53,7 +53,7 @@
     - shell: echo "-name couchdb@{{hostvars[groups[ansible_hostname][0]].ansible_host}}" >> /home/ubuntu/couchdb/vm.args
       register: output
     
-    - command: docker-compose -f couchdb/docker-compose.yml restart
+    - command: docker-compose -f couchdb/docker-compose.yml up
     
 
 

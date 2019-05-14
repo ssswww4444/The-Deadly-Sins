@@ -1,15 +1,22 @@
-version: '3'
+version: '3.7'
 
 services:
   web-master:
     image: wylswz/nginx-swarm
     ports:
-      - '80:8080'
-      - '443:443'
+      - target: 8080
+        published: 80
+        protocol: tcp
+        mode: ingress
+      - target: 5984
+        published: 5984
+        protocol: tcp
+        mode: host
     
     volumes:
       - './etc/nginx-master:/etc/nginx'
       - './src:/usr/share/nginx/html'
+      - '/etc/hosts:/etc/hosts'
 
     command: [nginx, '-g', 'daemon off;']
     networks:
@@ -24,6 +31,7 @@ services:
     volumes:
       - './etc/nginx-slave:/etc/nginx'
       - './src:/usr/share/nginx/html'
+      - '/etc/hosts:/etc/hosts'
     command: [nginx, '-g', 'daemon off;']
     networks:
       nginx-net:
@@ -32,9 +40,10 @@ services:
         constraints:
           - node.role == worker
       mode: replicated
-      replicas: 2
+      replicas: 3
 
 networks:
   nginx-net:
     driver: overlay
+
     

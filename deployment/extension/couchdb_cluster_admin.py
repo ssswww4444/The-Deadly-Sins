@@ -34,7 +34,6 @@ class CouchAgent:
             'http://{2}:{3}@{0}:{1}/database'.format(self.host, self.port, username, password)
         )
         print("[Setting up]: Creating user database...")
-        print(resp.content)
         requests.put(
             'http://{2}:{3}@{0}:{1}/_users'.format(self.host, self.port, username, password)
         )
@@ -64,7 +63,6 @@ class CouchAgent:
             },
             headers = self.headers
         )
-        print(resp.content)
         return resp
 
     def disable_cluster(self):
@@ -84,7 +82,6 @@ class CouchAgent:
             },
             headers = self.headers
         )
-        print(resp.content)
         return resp
 
     def uuid_setup(self):
@@ -143,7 +140,6 @@ class CouchAgent:
             headers=self.headers
 
         )
-        print(resp.content)
         return resp
 
     def join_node(self, remote_host, remote_port=5984):
@@ -170,7 +166,6 @@ class CouchAgent:
             },
             headers=self.headers
         )
-        print(resp.content)
         return resp
 
     def finalize_cluster(self):
@@ -209,14 +204,18 @@ class CouchAgent:
 if __name__ == "__main__":
     resp = {}
     config_file = 'N/A'
+    print("Please give username and password for the dbs(Default to be unified: )")
+    username = input("Remote username")
+    password = getpass.getpass("Remote password")
     # master = '45.113.233.243'
     slave1 = '45.113.233.243'
     slave2 = '45.113.235.196'
     slave3 = '45.113.233.232'
+
     # agent = CouchAgent(master, name='master', username='admin', password='123qweasd')
-    slave_agent_1 = CouchAgent(slave1, name='slave1', username='admin', password='123qweasd')
-    slave_agent_2 = CouchAgent(slave2, name='slave2', username='admin', password='123qweasd')
-    slave_agent_3 = CouchAgent(slave3, name='slave3', username='admin', password='123qweasd')
+    slave_agent_1 = CouchAgent(slave1, name='slave1', username=username, password=password)
+    slave_agent_2 = CouchAgent(slave2, name='slave2', username=username, password=password)
+    slave_agent_3 = CouchAgent(slave3, name='slave3', username=username, password=password)
 
     # agent.init_db()
     #slave_agent_1.init_db()
