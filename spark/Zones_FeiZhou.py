@@ -25,4 +25,3 @@ class Zones:
                 self.zones[id]['max_x'] = max(self.zones[id]['max_x'], coordinate[0])
                 self.zones[id]['min_y'] = min(self.zones[id]['min_y'], coordinate[1])
                 self.zones[id]['max_y'] = max(self.zones[id]['max_y'], coordinate[1])
-
