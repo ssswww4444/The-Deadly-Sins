@@ -1,3 +1,4 @@
+#running command --packages org.apache.bahir:spark-sql-cloudant_2.11:2.3.2 --driver-memory 4g
 from pyspark import SparkContext, SparkConf
 import json
 from Zones import Zones
@@ -6,12 +7,7 @@ from shapely.geometry.polygon import Polygon
 import couchdb
 from pyspark.sql import SparkSession
 import requests
-
-#--packages org.apache.bahir:spark-sql-cloudant_2.11:2.3.2 --driver-memory 4g
-
-"""
-wordcount begins
-"""
+import operator
 import nltk
 # nltk.download("stopwords")
 # nltk.download('averaged_perceptron_tagger')
@@ -22,10 +18,6 @@ from nltk.tokenize.casual import TweetTokenizer
 import re
 from collections import Counter
 from nltk import pos_tag
-"""
-wordcount ends
-"""
-
 import numpy as np
 import pandas as pd
 from os import path
@@ -60,7 +52,7 @@ def read_from_db():
 def read_from_file():
     conf = SparkConf().setAppName("test").setMaster("local[*]")
     sc = SparkContext(conf=conf)
-    twitter_file = sc.textFile("../../richard_db_with_loc.json")
+    twitter_file = sc.textFile("../../../big_twitter_processed.json")
     twitter_file = twitter_file.filter(isContent)
     twitter_file = twitter_file.map(extractContent)
     return twitter_file
@@ -78,9 +70,6 @@ def has_coordinates(line):
         return False
     else:
         return line["coordinates"]
-
-
-
 
 def in_polygon(tweet):
     """
@@ -100,6 +89,28 @@ def in_polygon(tweet):
                 return zone_id
     return 'unknown'
 
+def map_polygon_polarity(tweet):
+    """
+    This function is used to find the corresponding polygon
+    for each tweet based on coordinates. The return value is 
+    the id of the polygon that each tweet belongs to.
+    """
+    x = tweet["coordinates"]["coordinates"][0]
+    y = tweet["coordinates"]["coordinates"][1]
+    try:
+        polarity = tweet["textblob"]["polarity"]
+    except TypeError:
+        polarity = 0
+    
+    for zone_id, zone_range in zones.items():
+        if (x >= zone_range['min_x'] and x <= zone_range['max_x'] and y >= zone_range['min_y']
+            and y <= zone_range['max_y']):
+            point = Point(x,y)
+            polygon = Polygon(zone_range['coordinates'])
+            if polygon.contains(point):
+                return (zone_id, polarity)
+    return ('unknown', polarity)
+
 def max_emotion(tweet):
     max_score = 0
     max_index = -1
@@ -111,6 +122,60 @@ def max_emotion(tweet):
 
 def contain_senpy(tweet):
     if "senpy" in tweet:
+        return True
+    else:
+        return False
+
+def contain_react(tweet):
+    if "react" in tweet:
+        return True
+    else:
+        return False
+
+def contain_textblob(tweet):
+    if "textblob" in tweet:
+        return True
+    else:
+        return False
+
+def is_negative(tweet):
+    if tweet["textblob"][0] < 0:
+        return True
+    else:
+        return False
+
+def is_neutral(tweet):
+    if tweet["textblob"][0] == 0:
+        return True
+    else:
+        return False
+
+def is_love(tweet):
+    if max(tweet["react"].items(), key=operator.itemgetter(1))[0] == "love":
+        return True
+    else:
+        return False
+
+def is_wow(tweet):
+    if "wow" == max(tweet["react"].items(), key=operator.itemgetter(1))[0]:
+        return True
+    else:
+        return False
+
+def is_haha(tweet):
+    if "haha" == max(tweet["react"].items(), key=operator.itemgetter(1))[0]:
+        return True
+    else:
+        return False
+
+def is_sad(tweet):
+    if "sad" == max(tweet["react"].items(), key=operator.itemgetter(1))[0]:
+        return True
+    else:
+        return False
+
+def is_angry(tweet):
+    if "angry" == max(tweet["react"].items(), key=operator.itemgetter(1))[0]:
         return True
     else:
         return False
@@ -144,6 +209,7 @@ def is_awe(tweet):
 
 def is_sadness(tweet):
     return is_emotion_type(tweet, SADNESS)
+
 
 def find_count(polygon_code, dict):
     if(polygon_code in dict):
@@ -208,45 +274,88 @@ def get_word_freq(counter):
     return dictionary
 
 
-
 zones = Zones().zones
 
-twitters = read_from_db()
+twitters = read_from_file()
 
-senpy = twitters.filter(contain_senpy)
-senpy.cache()
+textblob = twitters.filter(has_coordinates)
+textblob.cache()
+
+polarity_info = textblob.map(map_polygon_polarity)
+result = polarity_info.reduceByKey(lambda a, b: a+b).collect()
 
 output = {}
-output["tweets_num"] = senpy.count()
-output["total_info"] = fill_dict(senpy.map(in_polygon).countByValue())
-output["anger_tweets_num"] =  senpy.filter(is_anger).count()
-output["anger_word_freq"] = get_word_freq(senpy.filter(is_anger).map(word_count).reduce(lambda a, b: a+b))
-output["anger_info"] = fill_dict(senpy.filter(is_anger).map(in_polygon).countByValue())
-output["amusement_tweets_num"] = senpy.filter(is_amusement).count()
-output["amusement_word_freq"] = get_word_freq(senpy.filter(is_amusement).map(word_count).reduce(lambda a, b: a+b))
-output["amusement_info"] = fill_dict(senpy.filter(is_amusement).map(in_polygon).countByValue())
-output["annoyance_tweets_num"] = senpy.filter(is_annoyance).count()
-output["annoyance_word_freq"] = get_word_freq(senpy.filter(is_annoyance).map(word_count).reduce(lambda a, b: a+b))
-output["annoyance_info"] = fill_dict(senpy.filter(is_annoyance).map(in_polygon).countByValue())
-output["negative_fear_tweets_num"] = senpy.filter(is_negative_fear).count()
-output["negative_fear_word_freq"] = get_word_freq(senpy.filter(is_negative_fear).map(word_count).reduce(lambda a, b: a+b))
-output["negative_fear_info"] = fill_dict(senpy.filter(is_negative_fear).map(in_polygon).countByValue())
-output["indifference_tweets_num"] = senpy.filter(is_indifference).count()
-output["indifference_word_freq"] = get_word_freq(senpy.filter(is_indifference).map(word_count).reduce(lambda a, b: a+b))
-output["indifference_info"] = fill_dict(senpy.filter(is_indifference).map(in_polygon).countByValue())
-output["joy_tweets_num"] = senpy.filter(is_joy).count()
-output["joy_word_freq"] = get_word_freq(senpy.filter(is_joy).map(word_count).reduce(lambda a, b: a+b))
-output["joy_info"] = fill_dict(senpy.filter(is_joy).map(in_polygon).countByValue())
-output["awe_tweets_num"] = senpy.filter(is_awe).count()
-output["awe_word_freq"] = get_word_freq(senpy.filter(is_awe).map(word_count).reduce(lambda a, b: a+b))
-output["awe_info"] = fill_dict(senpy.filter(is_awe).map(in_polygon).countByValue())
-output["sadness_tweets_num"] = senpy.filter(is_sadness).count()
-output["sadness_word_freq"] = get_word_freq(senpy.filter(is_sadness).map(word_count).reduce(lambda a, b: a+b))
-output["sadness_info"] = fill_dict(senpy.filter(is_sadness).map(in_polygon).countByValue())
+polarity = {}
+
+for item in result:
+    polarity[item[0]] = item[1]
+
+output["polarity"] = polarity
 
 couchserver = couchdb.Server("http://admin:123qweasd@45.113.233.243:5984/")
 db = couchserver["spark_results"]
-db["twitter_with_loc"] = output
+db["big_twitter_processed_polarity"] = output
+
+
+# output["tweets_num"] = textblob.count()
+# output["total_info"] = fill_dict(textblob.map(in_polygon).countByValue())
+
+# output["negative_tweets_num"] = textblob.filter(is_negative).count()
+# output["negative_word_freq"] = get_word_freq(textblob.filter(is_negative).map(word_count).reduce(lambda a, b: a+b))
+# output["negative_info"] = fill_dict(textblob.filter(is_negative).map(in_polygon).countByValue())
+
+# output["neutral_tweets_num"] = textblob.filter(is_neutral).count()
+# output["neutral_word_freq"] = get_word_freq(textblob.filter(is_neutral).map(word_count).reduce(lambda a, b: a+b))
+# output["neutral_info"] = fill_dict(textblob.filter(is_neutral).map(in_polygon).countByValue())
+
+# output["love_tweets_num"] =  react.filter(is_love).count()
+# output["love_word_freq"] = get_word_freq(react.filter(is_love).map(word_count).reduce(lambda a, b: a+b))
+# output["love_info"] = fill_dict(react.filter(is_love).map(in_polygon).countByValue())
+
+# output["haha_tweets_num"] =  react.filter(is_haha).count()
+# output["haha_word_freq"] = get_word_freq(react.filter(is_haha).map(word_count).reduce(lambda a, b: a+b))
+# output["haha_info"] = fill_dict(react.filter(is_haha).map(in_polygon).countByValue())
+
+# output["sad_tweets_num"] =  react.filter(is_sad).count()
+# output["sad_word_freq"] = get_word_freq(react.filter(is_sad).map(word_count).reduce(lambda a, b: a+b))
+# output["sad_info"] = fill_dict(react.filter(is_sad).map(in_polygon).countByValue())
+
+# output["wow_tweets_num"] =  react.filter(is_wow).count()
+# output["wow_word_freq"] = get_word_freq(react.filter(is_wow).map(word_count).reduce(lambda a, b: a+b))
+# output["wow_info"] = fill_dict(react.filter(is_wow).map(in_polygon).countByValue())
+
+# output["angry_tweets_num"] =  react.filter(is_angry).count()
+# output["angry_word_freq"] = get_word_freq(react.filter(is_angry).map(word_count).reduce(lambda a, b: a+b))
+# output["angry_info"] = fill_dict(react.filter(is_angry).map(in_polygon).countByValue())
+
+
+
+# output["anger_tweets_num"] =  textblob.filter(is_anger).count()
+# output["anger_word_freq"] = get_word_freq(textblob.filter(is_anger).map(word_count).reduce(lambda a, b: a+b))
+# output["anger_info"] = fill_dict(textblob.filter(is_anger).map(in_polygon).countByValue())
+# output["amusement_tweets_num"] = textblob.filter(is_amusement).count()
+# output["amusement_word_freq"] = get_word_freq(textblob.filter(is_amusement).map(word_count).reduce(lambda a, b: a+b))
+# output["amusement_info"] = fill_dict(textblob.filter(is_amusement).map(in_polygon).countByValue())
+# output["annoyance_tweets_num"] = textblob.filter(is_annoyance).count()
+# output["annoyance_word_freq"] = get_word_freq(textblob.filter(is_annoyance).map(word_count).reduce(lambda a, b: a+b))
+# output["annoyance_info"] = fill_dict(textblob.filter(is_annoyance).map(in_polygon).countByValue())
+# output["negative_fear_tweets_num"] = textblob.filter(is_negative_fear).count()
+# output["negative_fear_word_freq"] = get_word_freq(textblob.filter(is_negative_fear).map(word_count).reduce(lambda a, b: a+b))
+# output["negative_fear_info"] = fill_dict(textblob.filter(is_negative_fear).map(in_polygon).countByValue())
+# output["indifference_tweets_num"] = textblob.filter(is_indifference).count()
+# output["indifference_word_freq"] = get_word_freq(textblob.filter(is_indifference).map(word_count).reduce(lambda a, b: a+b))
+# output["indifference_info"] = fill_dict(textblob.filter(is_indifference).map(in_polygon).countByValue())
+# output["joy_tweets_num"] = textblob.filter(is_joy).count()
+# output["joy_word_freq"] = get_word_freq(textblob.filter(is_joy).map(word_count).reduce(lambda a, b: a+b))
+# output["joy_info"] = fill_dict(textblob.filter(is_joy).map(in_polygon).countByValue())
+# output["awe_tweets_num"] = textblob.filter(is_awe).count()
+# output["awe_word_freq"] = get_word_freq(textblob.filter(is_awe).map(word_count).reduce(lambda a, b: a+b))
+# output["awe_info"] = fill_dict(textblob.filter(is_awe).map(in_polygon).countByValue())
+# output["sadness_tweets_num"] = textblob.filter(is_sadness).count()
+# output["sadness_word_freq"] = get_word_freq(textblob.filter(is_sadness).map(word_count).reduce(lambda a, b: a+b))
+# output["sadness_info"] = fill_dict(textblob.filter(is_sadness).map(in_polygon).countByValue())
+
+
 
 
 # with open('test.json', 'w') as fp:
@@ -258,6 +367,4 @@ db["twitter_with_loc"] = output
 # cloud = wordcloud.generate_from_frequencies(dict(final_counter))
 
 # wordcloud.to_file("anger.png")
-
-print("End of job")
 
