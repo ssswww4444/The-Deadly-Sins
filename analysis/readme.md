@@ -4,7 +4,7 @@ Maintainer:
 
 ## File structure
 ```
-deployment/
+Analysis/
 ├── sentiment                -> Sentiment(Emotion) Analysis
 │   ├── Senpy Guide.ipynb    -> Senpy Emotion Analysis Usage
 │   └── readme.md            -> Readme
@@ -23,3 +23,4 @@ deployment/
 │   └── result.png           -> Word Cloud
 │── readme.md                -> Readme
 └── spark_results.json       -> Spark results for analysis
+```
