@@ -38,12 +38,14 @@ def read_jsons():
 
     # Twitter authentication credentials
     with open(JSON_PATH + FILE_DICT["twitter_api"], "r") as f:
-        api_auth = json.load(f)
+        api_auths = json.load(f)["keys"]
 
-    return bounding, db_auth, api_auth
+    return bounding, db_auth, api_auths
 
-def twitter_user_timeline(api, storage):
+def twitter_user_timeline(apis, storage):
     """ Getting tweets from user timeline """
+    i = 0
+    api = apis[0]
     while True:
         # wait until has task
         if(len(uid_ls) == 0):
@@ -52,27 +54,38 @@ def twitter_user_timeline(api, storage):
         # requesting timeline
         uid = uid_ls.pop(0)
 
-        for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
-            if "text" in item:
-                print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
-                # save tweet to database
-                storage.save_tweet(item)
-            elif 'message' in item:
-                print('ERROR %s: %s\n' % (item['code'], item['message']))
+        try:
+            for item in api.request("statuses/user_timeline", {"user_id": uid, "count": 200}):
+                if "text" in item:
+                    # print('USER: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # save tweet to database
+                    storage.save_tweet(item)
+                elif 'message' in item:
+                    print('ERROR %s: %s\n' % (item['code'], item['message']))
+        except:
+            i += 1
+            if i == len(apis):
+                i = 0
+            api = apis[i]
+            print("Exceed rate limits, switch to the next api")
+            pass
 
 def twitter_streaming(api, storage, bounding, region):
     """ Real-time twitter streaming """
     # requesting tweets (in bounding box of specified region)
-    for item in api.request("statuses/filter", {"locations": bounding[region]}):
-        if "text" in item:
-            print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
-            # save tweet to database
-            storage.save_tweet(item)
-            # only get timeline for user tweeted with coordinates
-            if item["coordinates"]:
-                uid_ls.append(item["user"]["id"])
-        elif 'message' in item:
-            print('ERROR %s: %s\n' % (item['code'], item['message']))
+    while True:
+        try:
+            for item in api.request("statuses/filter", {"locations": bounding[region]}):
+                if "text" in item:
+                    # print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+                    # save tweet to database
+                    storage.save_tweet(item)
+                    # only get timeline for user tweeted with coordinates
+                    uid_ls.append(item["user"]["id"])
+                elif 'message' in item:
+                    print('ERROR %s: %s\n' % (item['code'], item['message']))
+        except:
+            pass
 
 def main():
 
@@ -80,7 +93,7 @@ def main():
     args = get_args()
 
     # read required json files
-    bounding, db_auth, api_auth = read_jsons()
+    bounding, db_auth, api_auths = read_jsons()
 
     # db url
     url = "http://" + db_auth["user"] + ":" + db_auth["pwd"] \
@@ -88,13 +101,17 @@ def main():
 
     # initialise db and twitter api
     storage = TweetStore(args.db_name, url)
-    api = TwitterAPI(api_auth["API_KEY"],
-                     api_auth["API_SECRET"], 
-                     api_auth["ACCESS_TOKEN"], 
-                     api_auth["ACCESS_TOKEN_SECRET"])
 
-    t1 = threading.Thread(target=twitter_streaming, args=(api, storage, bounding, args.region))
-    t2 = threading.Thread(target=twitter_user_timeline, args=(api, storage))
+    apis = []
+    for api_auth in api_auths:
+        api = TwitterAPI(api_auth["API_KEY"],
+                        api_auth["API_SECRET"], 
+                        api_auth["ACCESS_TOKEN"], 
+                        api_auth["ACCESS_TOKEN_SECRET"])
+        apis.append(api)
+
+    t1 = threading.Thread(target=twitter_streaming, args=(apis[0], storage, bounding, args.region))
+    t2 = threading.Thread(target=twitter_user_timeline, args=(apis[1:], storage))
 
     # start streaming and getting timelines
     t1.start()

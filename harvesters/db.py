@@ -17,7 +17,7 @@ class TweetStore(object):
         except couchdb.http.PreconditionFailed:
             # existing db
             self.db = self.server[dbname]
-    
+
     def _create_views(self):
         """ create 2 default views for the database """
         # view 1: return total count of tweets
@@ -27,7 +27,7 @@ class TweetStore(object):
                                      "count_tweets",  # view name
                                      count_map,       # map
                                      reduce_fun=count_reduce)
-        
+
         view.sync(self.db)
 
         # view 2: return all stored tweet documents
@@ -37,13 +37,13 @@ class TweetStore(object):
                                      get_tweets)
         view.sync(self.db)
 
-    def _emotion(self, tweet_text):
-        res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
-                            params={"input": tweet_text})
-        return json.loads(res.text)
-
     def _sentiment(self, tweet_text):
         return TextBlob(tweet_text).sentiment
+
+    def _emotion(self, tweet_text):
+        res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood',
+                            params={"input": tweet_text})
+        return json.loads(res.text)
 
     def get_db(self):
         return self.db
@@ -85,7 +85,7 @@ class TweetStore(object):
         """ method for returning view 1 """
         for doc in self.db.view("twitter/count_tweets"):
             return doc.values
-    
+
     def get_tweets(self):
         """ method for returning view 2 """
         return self.db.view("twitter/get_tweets")
