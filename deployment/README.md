@@ -1,8 +1,10 @@
 
 
-## Deployment
+# Deployment
+maintainer:
+- Yunlu Wen \<yunluw@student.unimelb.edu.au\>
 
-### File structure
+## File structure
 ```
 deployment/
 ├── archive                 -> Some of unused codes
@@ -51,7 +53,7 @@ deployment/
 ├── shs         -> Some commands to be used
 └── unimelb-comp90024-group-48-openrc.sh
 ```
-### Steps
+## Steps
 - Start instance
 - Create security group
 - Install software packages
@@ -64,7 +66,7 @@ deployment/
   - Deploy dhfs along with spark
 
 
-### How to deploy hadoop & spark?
+## How to deploy hadoop & spark?
 It's all about configurations. You should carefully configure your master and slave, thinking about the system architecture and network topology. Then send the configure files along with deployment scripts to the server side. Start the hadoop cluster in following order:
 - Add ssh_keys to datanodes
 - format namenode
