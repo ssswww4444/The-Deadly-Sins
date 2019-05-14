@@ -1,6 +1,6 @@
 # Harvesters
-maintainer:
-- Peiyun Sun \<peiyuns@student.unimelb.edu.au\>
+Maintainer:
+- Pei-Yun Sun \<peiyuns@student.unimelb.edu.au\>
 ## Requirements
 Use pip3 install:
 1. TwitterAPI
