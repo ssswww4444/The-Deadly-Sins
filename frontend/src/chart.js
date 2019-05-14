@@ -612,14 +612,16 @@ var predictData = $.ajax({
 $.when(predictData).done(function() {
 
     console.log("predict")
+    console.log(predictData)
     var pca_means = Object.values(predictData.responseJSON["pca_means"]);
     var pc1 = Object.values(predictData.responseJSON["pc1_coefficients"]);
     var pc2 = Object.values(predictData.responseJSON["pc2_coefficients"]);
     var pc3 = Object.values(predictData.responseJSON["pc3_coefficients"]);
     var lr = Object.values(predictData.responseJSON["lr_coefficients"]);
-    var lr_inter = Object.values(predictData.responseJSON["lr_intercept"]);
+    var lr_inter = 6.079509951139702;
 
-    console.log(pca_means)
+    console.log("lr inter")
+    console.log(lr_inter)
 
 $("#calculate").click(function(e){
     e.preventDefault(); // cancel the link behaviour
@@ -632,10 +634,6 @@ $("#calculate").click(function(e){
     var factor7 = document.getElementById('factor7').value;
     var factor8 = document.getElementById('factor8').value;
 
-    var input_array = [];
-    input_array.push(factor1,factor2,factor3,factor4,factor5,factor6,factor7,factor8);
-    console.log(input_array);
-
     var pc1_val1 = (parseInt(factor1)-pca_means[0]) * pc1[0];
     var pc1_val2 = (parseInt(factor2)-pca_means[1]) * pc1[1];
     var pc1_val3 = (parseInt(factor3)-pca_means[2]) * pc1[2];
@@ -645,7 +643,6 @@ $("#calculate").click(function(e){
     var pc1_val7 = (parseInt(factor7)-pca_means[6]) * pc1[6];
     var pc1_val8 = (parseInt(factor8)-pca_means[7]) * pc1[7];
     var pc1_val_sum = pc1_val1+pc1_val2+pc1_val3+pc1_val4+pc1_val5+pc1_val6+pc1_val7+pc1_val8;
-    console.log("pc1 value" + pc1_val_sum);
 
     var pc2_val1 = (parseInt(factor1)-pca_means[0]) * pc2[0];
     var pc2_val2 = (parseInt(factor2)-pca_means[1]) * pc2[1];
@@ -656,7 +653,6 @@ $("#calculate").click(function(e){
     var pc2_val7 = (parseInt(factor7)-pca_means[6]) * pc2[6];
     var pc2_val8 = (parseInt(factor8)-pca_means[7]) * pc2[7];
     var pc2_val_sum = pc2_val1+pc2_val2+pc2_val3+pc2_val4+pc2_val5+pc2_val6+pc2_val7+pc2_val8;
-    console.log("pc2 value" + pc2_val_sum);
 
     var pc3_val1 = (parseInt(factor1)-pca_means[0]) * pc3[0];
     var pc3_val2 = (parseInt(factor2)-pca_means[1]) * pc3[1];
@@ -667,7 +663,6 @@ $("#calculate").click(function(e){
     var pc3_val7 = (parseInt(factor7)-pca_means[6]) * pc3[6];
     var pc3_val8 = (parseInt(factor8)-pca_means[7]) * pc3[7];
     var pc3_val_sum = pc3_val1+pc3_val2+pc3_val3+pc3_val4+pc3_val5+pc3_val6+pc3_val7+pc3_val8;
-    console.log("pc3 value" + pc3_val_sum);
 
     var predict_result = (pc1_val_sum*lr[0]) + (pc2_val_sum*lr[1]) + (pc3_val_sum*lr[2]) + lr_inter;
 
