@@ -45,7 +45,7 @@ def twitter_search(api, storage, query):
                                               "lang": "en", 
                                               "geocode": "-37.8390435045,145.106023031,201km"}):
         if "text" in item:
-            print('STREAM: %s -- %s\n' % (item['user']['screen_name'], item['text']))
+            print('SEARCH: %s -- %s\n' % (item['user']['screen_name'], item['text']))
             # save tweet to database
             storage.save_tweet(item)
         elif 'message' in item:
