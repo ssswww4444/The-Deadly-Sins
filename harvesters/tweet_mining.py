@@ -64,6 +64,8 @@ def twitter_user_timeline(apis, storage):
                     print('ERROR %s: %s\n' % (item['code'], item['message']))
         except:
             i += 1
+            if i == len(apis):
+                i = 0
             api = apis[i]
             print("Exceed rate limits, switch to the next api")
             pass
