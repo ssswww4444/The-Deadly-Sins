@@ -1,8 +1,10 @@
 
 
-## Deployment
+# Deployment
+maintainer:
+- Yunlu Wen \<yunluw@student.unimelb.edu.au\>
 
-### File structure
+## File structure
 ```
 deployment/
 ├── archive                 -> Some of unused codes
@@ -51,7 +53,7 @@ deployment/
 ├── shs         -> Some commands to be used
 └── unimelb-comp90024-group-48-openrc.sh
 ```
-### Steps
+## Steps
 - Start instance
 - Create security group
 - Install software packages
@@ -64,7 +66,7 @@ deployment/
   - Deploy dhfs along with spark
 
 
-### How to deploy hadoop & spark?
+## How to deploy hadoop & spark?
 It's all about configurations. You should carefully configure your master and slave, thinking about the system architecture and network topology. Then send the configure files along with deployment scripts to the server side. Start the hadoop cluster in following order:
 - Add ssh_keys to datanodes
 - format namenode
@@ -92,8 +94,6 @@ The Spark can be either deployed in standalone mode or along with cluster manage
   - More copies of data
   - Overhead on network
 
-   
-### Spark design decisions
 
 ### Hadoop swarm mode deployment
 
@@ -111,16 +111,20 @@ Solution:
 
 
 ### Hadoop error logs
-- Domain name not found: This is because the address inside the docker is resolved to the container id, which is unknown outside the docker cluster. You need to add the ip and container id in client hosts
+- Domain name not found: This is because the address inside the docker is resolved to the container id, which is unknown outside the docker cluster. You need to add the ip and container id in client machine
 - CORS: Config CORS in core-site.xml. (Unsolved)
-- Have to sync name resolution
+- Have to sync name resolution for each node
 - xxxauthority: repeated hostname and alias caused the name resolution conflict. Solution: Use different string for alias and hostname
 - unexpected eof
 
 
 
 ### Spark error logs
-- Yarn mode stuck: Because AM resource limit exceeded. Solution config yarn.scheduler.capacity.maximum-am-resource-percent in yarn-site.xml, and use aliases to access yarn service instead of public ip
-- Submit cannot bind address.
+- Yarn mode stuck: Because AM resource limit exceeded. Solution config yarn.scheduler.capacity.maximum-am-resource-percent in yarn-site.xml, and use subnet addresses to access yarn service instead of public ip
+- Submit cannot bind address. Solution: Set Proper Driver host
+- Yarn Mode (In docker swarm) BlockTransferService Unable to instantiate: Unresolved. Use standalone instead.
 
-http://ae789c5d5b74:50075/webhdfs/v1/test/71e95c19-5457-4e6f-b009-b7030d4ba350.pdf?op=CREATE&namenoderpcaddress=hadoop.master:8020&createflag=&createparent=true&overwrite=false
+
+### Front end error logs
+- Nginx docker user not found. Solution: Create www-data in Dockerfile and chmod
+- Modules not found. Solution: Install modules in container or comment out the module loading lines in config file

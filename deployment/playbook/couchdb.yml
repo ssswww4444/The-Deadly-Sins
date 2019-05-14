@@ -53,7 +53,7 @@
     - shell: echo "-name couchdb@{{hostvars[groups[ansible_hostname][0]].ansible_host}}" >> /home/ubuntu/couchdb/vm.args
       register: output
     
-    - command: docker-compose -f couchdb/docker-compose.yml restart
+    - command: docker-compose -f couchdb/docker-compose.yml up
     
 
 

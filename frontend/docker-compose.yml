@@ -1,11 +1,13 @@
-version: '3'
+version: '3.7'
 
 services:
   web-master:
     image: wylswz/nginx-swarm
     ports:
-      - '80:8080'
-      - '443:443'
+      - target: 8080
+        published: 80
+        protocol: tcp
+        mode: ingress
       - target: 5984
         published: 5984
         protocol: tcp
@@ -38,9 +40,10 @@ services:
         constraints:
           - node.role == worker
       mode: replicated
-      replicas: 2
+      replicas: 3
 
 networks:
   nginx-net:
     driver: overlay
+
     
