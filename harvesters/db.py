@@ -2,6 +2,7 @@ import couchdb
 from couchdb import design
 import json
 import requests
+from textblob import TextBlob
 
 class TweetStore(object):
 
@@ -37,6 +38,9 @@ class TweetStore(object):
         view.sync(self.db)
 
     def _sentiment(self, tweet_text):
+        return TextBlob(tweet_text).sentiment
+
+    def _emotion(self, tweet_text):
         res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
                             params={"input": tweet_text})
         return json.loads(res.text)
@@ -53,18 +57,27 @@ class TweetStore(object):
 
             if tid in self.db:
                 doc = self.db[tid]
+
+                # emotion
                 if "senpy" not in doc.keys() or doc["senpy"] == None:
                     # update with senpy
-                    doc["senpy"] = self._sentiment(doc["text"])
-                    self.db[tid] = doc
-                    print("UPDATE DOC ", tid)
+                    doc["senpy"] = self._emotion(doc["text"])
+
+                # sentiment
+                if "textblob" not in doc.keys() or doc["textblob"] == None:
+                    # update with senpy
+                    doc["textblob"] = self._sentiment(doc["text"])
+                    
+                self.db[tid] = doc
+                print("UPDATE DOC ", tid)
             else:
                 if "_rev" in tweet:
                     # rev from other db
                     tweet.pop("_rev")
                 if tweet["coordinates"]:
                     # only save tweets with coordinates
-                    tweet["senpy"] = self._sentiment(tweet["text"])
+                    tweet["senpy"] = self._emotion(tweet["text"])
+                    tweet["textblob"] = self._sentiment(tweet["text"])
                     self.db.save(tweet)
                     print("NEW DOC ", tid)
         except Exception as e:
