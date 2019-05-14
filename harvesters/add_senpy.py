@@ -58,7 +58,7 @@ def main():
                     continue
                     
             doc = db[doc_id]
-            if "senpy" not in doc.keys():
+            if "senpy" not in doc.keys() or doc["senpy"] == None:
                 res = requests.get('http://senpy.gsi.upm.es/api/emotion-depechemood', 
                                     params={"input": doc["text"]})
                 doc["senpy"] = json.loads(res.text)
