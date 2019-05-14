@@ -5,10 +5,10 @@ Maintainer:
 ## File structure
 ```
 Analysis/
-├── sentiment                -> Sentiment(Emotion) Analysis
+├── sentiment               
 │   ├── Senpy Guide.ipynb    -> Senpy Emotion Analysis Usage
 │   └── readme.md            -> Readme
-├── aurin                    -> Aurin data and analysis notebook
+├── aurin               
 │   ├── Data Analysis.ipynb  -> Jupyter notebook for analysis
 │   ├── child.json           -> Aurin data
 │   ├── education.json       -> Aurin data
