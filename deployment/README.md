@@ -54,20 +54,27 @@ deployment/
 └── unimelb-comp90024-group-48-openrc.sh
 ```
 ## Steps
-- Start instance
-- Create security group
-- Install software packages
-- Add ssh-keys to remote hosts
-- Initialize docker swarm
-- Deploy Couchdb
+- Start instance `playbook/infrastructure.yml`
+- Create security group `playbook/security_groups.yml`
+- Install software packages and add ssh key to remove hosts`playbook/env.yml`
+- Initialize docker swarm `playbook/docker-swarm.yml`
+- Deploy Couchdb `playbook/couchdb.yml`
   - Create couchdb services with playbook
   - build the cluster using  python library in /extension/couchdb_cluster_admin.py
-- Deploy Spark
+- Deploy Spark `playbook/hdfs.yml`
   - Deploy dhfs along with spark
+## Playbook Usage
 
+```bash
+$ source unimelb-comp90024-group-48-openrc.sh
+$ ansible-playbook playbook/xxx.yml -i playbook/library/dynamic_inventory/openstack_inventory.py -e "ansible_ssh_user=ubuntu"
+
+# The execution of playbook does not ensure a successful deployment. Developers are responsible to finish the remaining steps, read logs and test the services
+```
 
 ## How to deploy hadoop & spark?
 It's all about configurations. You should carefully configure your master and slave, thinking about the system architecture and network topology. Then send the configure files along with deployment scripts to the server side. Start the hadoop cluster in following order:
+(Need to execute scripts manually)
 - Add ssh_keys to datanodes
 - format namenode
 - Start dfs
@@ -106,9 +113,6 @@ Solution:
 - Master bind to 0.0.0.0
 - Worker bind to master alias
 
-### hosts generation
-
-
 
 ### Hadoop error logs
 - Domain name not found: This is because the address inside the docker is resolved to the container id, which is unknown outside the docker cluster. You need to add the ip and container id in client machine
@@ -116,7 +120,6 @@ Solution:
 - Have to sync name resolution for each node
 - xxxauthority: repeated hostname and alias caused the name resolution conflict. Solution: Use different string for alias and hostname
 - unexpected eof
-
 
 
 ### Spark error logs
