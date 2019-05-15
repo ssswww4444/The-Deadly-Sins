@@ -1,3 +1,9 @@
+# COMP90024 Assignment 2
+# Team: 48
+# City: Melbourne
+# Members: Wenqi Sun(928630), Yunlu Wen(869338), Fei Zhou(972547) 
+# Pei-Yun Sun(667816), Yiming Zhang(889262)
+
 import json
 
 # bounding box file
