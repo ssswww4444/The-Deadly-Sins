@@ -1,3 +1,11 @@
+"""
+COMP90024 Assignment 2
+Team: 48
+City: Melbourne
+Members: Wenqi Sun(928630), Yunlu Wen(869338), Fei Zhou(972547) 
+Pei-Yun Sun(667816), Yiming Zhang(889262
+"""
+
 #running command --packages org.apache.bahir:spark-sql-cloudant_2.11:2.3.2 --driver-memory 4g
 from pyspark import SparkContext, SparkConf
 import json
