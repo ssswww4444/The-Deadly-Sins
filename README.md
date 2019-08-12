@@ -14,7 +14,7 @@ Clusters and Cloud Computing Assignment 2
 └── utils
 ```
 ## Demo
-Service Deployment Demo Video
-https://youtu.be/nX1Dweh4qHg
-Front-End Demo Video
+Service Deployment Demo Video  
+https://youtu.be/nX1Dweh4qHg  
+Front-End Demo Video  
 https://youtu.be/astrjribpGE
